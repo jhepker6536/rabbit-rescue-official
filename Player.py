@@ -11,11 +11,10 @@ class Key(pygame.sprite.Sprite):
         image = sprite_sheet.get_image(238,206,115,99)
         self.cage_list.append(image)
         image.set_colorkey(Constants.WHITE)
-    def update(self):
+    
         
 class Player(pygame.sprite.Sprite):
-    
-    
+ 
     change_x = 0
     change_y = 0
 
@@ -80,7 +79,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.change_y
         self.rect.x += self.change_x
         pos = self.rect.x 
-        
+         
         if self.direction == "R":
             frame = (pos // 20) % len(self.walking_frames_r)
             self.image = self.walking_frames_r[frame]

@@ -4,12 +4,12 @@ import Player
 from Player import Player
 import Constants
 from Platforms import Platform
-from Spritesheet import SpriteSheet 
+from Spritesheet import SpriteSheet
 width = 1366
 hight = 768
 screen = pygame.display.set_mode([width,hight], pygame.FULLSCREEN, 32)
 
-def level_one():
+def level_two():
     pygame.init()
     mouse_x = 0 
     mouse_y = 0 

@@ -2,7 +2,8 @@ import pygame
 import random 
 from Player import Player
 from Player import Animated_Player
-import Constants
+from Level_1 import level_one
+from Level_2 import level_two
 # Define some colors 
 BLACK    = (   0,   0,   0)
 WHITE    = ( 255, 255, 255)
@@ -17,57 +18,7 @@ width = 1366
 hight = 768
 screen = pygame.display.set_mode((width,hight), pygame.FULLSCREEN, 32)
 
-class SpriteSheet(object):
-   
-    sprite_sheet = None
- 
-    def __init__(self, file_name):
-    
-        self.sprite_sheet = pygame.image.load(file_name).convert_alpha()
-    def get_image(self, x, y, width, height):
-       
-        image = pygame.Surface([width, height])
- 
-       
-        image.blit(self.sprite_sheet, (0, 0), (x, y, width, height))
- 
-        
-        image.set_colorkey(GREEN)
- 
-        
-        return image
-class Text(pygame.sprite.Sprite):
-    def __init__(self, text, x, y, size,color,mouse):
-        super().__init__()
-        self.text = text 
-        self.x = x
-        self.y = y
-        self.size = size
-        self.color = color
-        self.mouse = mouse 
-    def draw(self):
-        font = pygame.font.SysFont('Calibri', self.size, True, False)
-        text4 = font.render(self.text,True,self.color)
-        screen.blit(text4, [self.x, self.y])
-    
-                
-
-
-        
- 
 #Button Rectangle class
-class Rect():
-    x = 0
-    y = 0
-    h = 0 
-    l = 0 
-    def __init__(self,x,y,h,l):
-        self.x = x
-        self.y = y
-        self.h = h
-        self.l = l
-    def draw(self):
-        pygame.draw.rect(screen, BLACK, [self.x, self.y, self.h, self.l], 1)
 
 
 def main():
@@ -75,13 +26,8 @@ def main():
     pygame.init()
       
     #Random Variables
-    mouse_x = 0 
-    mouse_y = 0 
-    color1 = RED 
-    color2 = RED
-    color3 = RED
     
-
+    
    
        
     # Ad sprites to list 
@@ -135,18 +81,16 @@ def main():
     #What screen we see and background
     background_image = pygame.image.load("Field.png")
     screen_view = 0
+    level = 0 
     font = pygame.font.Font(None, 25)
     frame_count = 0
     frame_rate = 60
     start_time = 90 
-    
-    
- 
     # Parent while loop
     while not really_done:
         
         # child loop containing loading screen!
-        while screen_view == 0 and done == False:
+        while screen_view == 0 and done == False and level == 0:
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT:
                     done = True 
@@ -158,7 +102,6 @@ def main():
             
             #count
             total_seconds = frame_count // frame_rate
-            minutes = total_seconds // 60
             seconds = total_seconds % 60
             print(seconds)
             frame_count += 1 
@@ -176,7 +119,7 @@ def main():
             clock.tick(frame_rate)            
             
         # child while loop, containing menu!
-        while screen_view == 1 and done == False:
+        while screen_view == 1 and done == False and level == 0:
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT:
                     done = True 
@@ -186,6 +129,14 @@ def main():
                     if mouse_x >= 399 and mouse_x <= 917 and mouse_y >= 325 and mouse_y <= 416:
                         print("game")
                         screen_view = 2
+                        level += 1
+                        if level == 1:
+                            level_one()
+                            if level_one.player.rect.x == 1000:
+                                level += 1
+                            
+                        if level == 2:
+                            level_two()
                     elif mouse_x >= 398 and mouse_x <= 649 and mouse_y >= 574 and mouse_y <= 666:
                         print("got it load")
                         color2 = WHITE 
@@ -235,7 +186,7 @@ def main():
             clock.tick(frame_rate)
              
        # child while loop, containing game!!
-        while screen_view == 2 and done == False:
+        while screen_view == 2 and done == False and level == 0:
                 for event in pygame.event.get(): 
                     if event.type == pygame.QUIT:
                         done = True 
@@ -278,7 +229,7 @@ def main():
                 
                 
         # child while loop, containing load screen!
-        while screen_view == 3 and done == False:
+        while screen_view == 3 and done == False and level == 0:
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT:
                     done = True 
@@ -323,7 +274,7 @@ def main():
         COLOR5 = RED
         COLOR6 = RED                
         # child while loop, containing setttings screen!
-        while screen_view == 4 and done == False:
+        while screen_view == 4 and done == False and level == 0:
                 for event in pygame.event.get(): 
                     if event.type == pygame.QUIT:
                         done = True
@@ -383,8 +334,12 @@ def main():
                 
                     # Limit to 20 frames per second
                     clock.tick(frame_rate)  
+    
+
+    
     clock.tick(frame_rate)
     pygame.quit()    
- 
+            
+                
 if __name__ == "__main__":
     main()
