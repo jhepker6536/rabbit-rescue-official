@@ -5,12 +5,26 @@ import random
 #Player Colors
 
 class Key(pygame.sprite.Sprite):
-    cage_list = []
+    key_list = []
     def __init__(self, x,y):
-        sprite_sheet = SpriteSheet("Caged Bunnies.png")
-        image = sprite_sheet.get_image(238,206,115,99)
-        self.cage_list.append(image)
+        self.x = x
+        self.y = y
+
+        sprite_sheet = SpriteSheet("Sprites.png")
+        image = sprite_sheet.get_image(309,1,65,66)
+        self.key_list.append(image)
         image.set_colorkey(Constants.WHITE)
+        
+        self.image = self.key_list[0]
+        self.rect = self.image.get_rect()        
+        self.rect.x = self.y 
+        self.rect.y = self.x
+    def update(self):
+        block_hit_list = pygame.sprite.spritecollide(self, Player, False)
+        for block in block_hit_list:
+            self.rect.x = 50
+            self.rect.y = 400
+    
     
         
 class Player(pygame.sprite.Sprite):
@@ -103,6 +117,7 @@ class Player(pygame.sprite.Sprite):
                 self.rect.bottom = block.rect.top
             elif self.change_y < 1:
                 self.rect.top = block.rect.bottom
+            
  
             # Stop our vertical movement
             self.change_y = 0
@@ -137,7 +152,7 @@ class Player(pygame.sprite.Sprite):
         self.change_x -= 3
         self.direction = "L"
     def jump(self):
-        if self.rect.y >= 50:
+        if self.rect.y >= 70:
             self.change_y = -13
         else:
             self.change_y = 1

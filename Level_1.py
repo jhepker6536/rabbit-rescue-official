@@ -1,7 +1,7 @@
 import pygame 
 import random 
 import Player
-from Player import Player
+from Player import Player, Key
 import Constants
 from Platforms import Platform
 from Spritesheet import SpriteSheet 
@@ -16,8 +16,9 @@ def level_one():
     floor_x = 0  
     platform_list = pygame.sprite.Group()
     platform_test = Platform(floor_x,674,0)
+    key = Key(200,300)
     platform1 = Platform(400,450,1)
-    platform2 = Platform(1000,350,1)
+    platform2 = Platform(850,250,1)
     platform3 = Platform(1500,450,1)
     platform5 = Platform(2000,350,1)
     platform6 = Platform(2400,250,1)
@@ -26,7 +27,7 @@ def level_one():
     
     
     active_sprite_list = pygame.sprite.Group()
-    active_sprite_list.add(player,platform_test,platform2,platform1,platform3,platform5,platform6)
+    active_sprite_list.add(player,platform_test,platform2,platform1,platform3,platform5,platform6,key)
     background_x_change = 0 
     font2 = pygame.font.SysFont('Calibri', 30, True, False)
     text11 = font2.render("Exit",True,Constants.RED)
@@ -82,10 +83,14 @@ def level_one():
         mouse_x = pos[0]
         mouse_y = pos[1]
                 
-        Platform.platform_move_x += player.change_x 
-        background_x += background_x_change
+        if player.change_x > 0:
+            Platform.platform_move_x += player.change_x + 2 
+        elif player.change_x < 0:
+            Platform.platform_move_x += player.change_x - 2 
+        background_x += background_x_change 
         platform_test.update()
-        
+        if player.rect.x == width:
+            Platform.platform_move_x += 3
         pygame.display.flip()
         clock.tick(60)
     pygame.quit()

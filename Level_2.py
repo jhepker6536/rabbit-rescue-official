@@ -33,7 +33,7 @@ def level_two():
     
     clock = pygame.time.Clock()
     done = False
-    background_image = pygame.image.load("field_background.png")
+    background_image = pygame.image.load("Forest Background.png")
     background_x = 0
     
     while not done:
@@ -89,4 +89,4 @@ def level_two():
         clock.tick(60)
     pygame.quit()
 if __name__ == "__main__":
-    level_one() 
+    level_two() 
