@@ -33,6 +33,7 @@ def level_one():
     
     clock = pygame.time.Clock()
     done = False
+    
     background_image = pygame.image.load("field_background.png")
     background_x = 0
     

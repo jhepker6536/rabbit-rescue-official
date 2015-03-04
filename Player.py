@@ -75,33 +75,38 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         
-    
+        
         self.rect.y += self.change_y
         self.rect.x += self.change_x
         pos = self.rect.x 
          
-        if self.direction == "R":
+        if self.direction == "R" and self.change_y != 1:
             frame = (pos // 20) % len(self.walking_frames_r)
             self.image = self.walking_frames_r[frame]
         elif self.direction == "U":
             frame = self.walking_frames_u[0]
 
-        else:
+        elif self.direction == "L" and self.change_y != 1:
             frame = (pos // 20) % len(self.walking_frames_l)
             self.image = self.walking_frames_l[frame]
         if self.grav == True:
             self.calc_grav()
+        
+        if self.rect.y == 0:
+            self.rect.y = 0
+            self.change_y = 1
                
         block_hit_list = pygame.sprite.spritecollide(self, self.list, False)
         for block in block_hit_list:
-            self.change_y = 0
-            self.rect.bottom = block.rect.top
-                
-        
-                
             
-            if self.rect.right == block.rect.left:
-                self.rect.x -= 2
+            if self.change_y >= 1:
+                self.rect.bottom = block.rect.top
+            elif self.change_y < 1:
+                self.rect.top = block.rect.bottom
+ 
+            # Stop our vertical movement
+            self.change_y = 0
+
             
             print ("hit")
         
@@ -132,7 +137,10 @@ class Player(pygame.sprite.Sprite):
         self.change_x -= 3
         self.direction = "L"
     def jump(self):
-        self.change_y -= 10
+        if self.rect.y >= 50:
+            self.change_y = -13
+        else:
+            self.change_y = 1
         
 class Animated_Player(pygame.sprite.Sprite):
     
