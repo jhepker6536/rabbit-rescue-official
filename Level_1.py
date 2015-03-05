@@ -1,7 +1,9 @@
 import pygame 
 import random 
 import Player
-from Player import Player, Key
+from Player import Player
+from Player import Key
+from Player import Caged_Bunny
 import Constants
 from Platforms import Platform
 from Spritesheet import SpriteSheet 
@@ -14,20 +16,29 @@ def level_one():
     mouse_x = 0 
     mouse_y = 0 
     floor_x = 0  
+    caged_bunny_list = pygame.sprite.Group()
     platform_list = pygame.sprite.Group()
+    active_sprite_list = pygame.sprite.Group()
+    
+    
     platform_test = Platform(floor_x,674,0)
-    key = Key(200,300)
     platform1 = Platform(400,450,1)
     platform2 = Platform(850,250,1)
     platform3 = Platform(1500,450,1)
     platform5 = Platform(2000,350,1)
     platform6 = Platform(2400,250,1)
-    platform_list.add(platform_test, platform2, platform1,platform3,platform5,platform6) 
+     
     player = Player(25,400,platform_list,True,Player.black_bunny, hight)
+    caged_bunny = Caged_Bunny(500,300) 
+    key = Key(200,300,active_sprite_list)
     
     
-    active_sprite_list = pygame.sprite.Group()
-    active_sprite_list.add(player,platform_test,platform2,platform1,platform3,platform5,platform6,key)
+    caged_bunny_list.add(caged_bunny)
+    
+    platform_list.add(platform_test, platform2, platform1,platform3,platform5,platform6)
+    
+    active_sprite_list.add(player,platform_test,platform2,platform1,platform3,platform5,platform6, caged_bunny,key)
+    
     background_x_change = 0 
     font2 = pygame.font.SysFont('Calibri', 30, True, False)
     text11 = font2.render("Exit",True,Constants.RED)
@@ -84,6 +95,7 @@ def level_one():
         mouse_y = pos[1]
                 
         if player.change_x > 0:
+            Platform.platform_move_x += player.change_x + 2
             Platform.platform_move_x += player.change_x + 2 
         elif player.change_x < 0:
             Platform.platform_move_x += player.change_x - 2 

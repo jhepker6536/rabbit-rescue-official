@@ -3,13 +3,31 @@ from Spritesheet import SpriteSheet
 import Constants
 import random 
 #Player Colors
-
-class Key(pygame.sprite.Sprite):
-    key_list = []
-    def __init__(self, x,y):
+class Caged_Bunny(pygame.sprite.Sprite):
+    caged_bunny_list = []
+    Cage_move_x = 0 
+    def __init__(self,x,y):
         self.x = x
         self.y = y
-
+        super().__init__()
+        sprite_sheet = SpriteSheet("Caged Bunnies.png")
+        image = sprite_sheet.get_image(239, 207, 113, 99)
+        self.caged_bunny_list.append(image)
+        image.set_colorkey(Constants.WHITE)
+        
+        self.image = self.caged_bunny_list[0]
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+        def update(self):
+            self.rect.x = self.x - self.Cage_move_x
+class Key(pygame.sprite.Sprite):
+    key_list = []
+    def __init__(self, x,y,list):
+        self.x = x
+        self.list = list
+        self.y = y
+        super().__init__()
         sprite_sheet = SpriteSheet("Sprites.png")
         image = sprite_sheet.get_image(309,1,65,66)
         self.key_list.append(image)
@@ -20,7 +38,7 @@ class Key(pygame.sprite.Sprite):
         self.rect.x = self.y 
         self.rect.y = self.x
     def update(self):
-        block_hit_list = pygame.sprite.spritecollide(self, Player, False)
+        block_hit_list = pygame.sprite.spritecollide(self, self.list, False)
         for block in block_hit_list:
             self.rect.x = 50
             self.rect.y = 400
