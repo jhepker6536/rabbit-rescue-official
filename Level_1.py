@@ -14,9 +14,9 @@ screen = pygame.display.set_mode([width,hight], pygame.FULLSCREEN, 32)
 def level_one():
     pygame.init()
     mouse_x = 0 
-    key_moving = True
+    key_collected = True
     mouse_y = 0 
-    key_x = 200
+    key_x = 1740
     key_y = 300
     floor_x = 0  
     caged_bunny_list = pygame.sprite.Group()
@@ -26,19 +26,18 @@ def level_one():
     
     platform_test = Platform(floor_x,674,0)
     platform1 = Platform(400,450,1)
-    platform2 = Platform(850,250,1)
-    platform3 = Platform(1500,450,1)
-    platform5 = Platform(2000,350,1)
+    platform2 = Platform(925,250,1)
+    platform3 = Platform(1600,430,1)
     platform6 = Platform(2400,250,1)
      
     player = Player(25,400,platform_list,True,Player.black_bunny, hight)
-    caged_bunny = Caged_Bunny(500,300) 
+    caged_bunny = Caged_Bunny(3050,525) 
     key = Key(key_x,key_y,player.change_x)
     
     key_list.add(key)
     caged_bunny_list.add(caged_bunny)
-    platform_list.add(platform_test, platform2, platform1,platform3,platform5,platform6)
-    active_sprite_list.add(player,platform_test,platform2,platform1,platform3,platform5,platform6,key)
+    platform_list.add(platform_test, platform2, platform1,platform3,platform6)
+    active_sprite_list.add(caged_bunny,player,platform_test,platform2,platform1,platform3,platform6,key)
     
     background_x_change = 0 
     font2 = pygame.font.SysFont('Calibri', 30, True, False)
@@ -94,16 +93,21 @@ def level_one():
         mouse_x = pos[0]
         mouse_y = pos[1]
         
-        
+        caged_bunny_list.draw(screen)
         block_hit_list = pygame.sprite.spritecollide(player, key_list, False)
         for block in block_hit_list:
             key.move_key()
             key_moving = False
             print(key_x)
+            
+        block_hit_list = pygame.sprite.spritecollide(player, caged_bunny_list, False)
+        for block in block_hit_list:
+            if key_collected == True:
+            
         
-        if key_moving == True and player.change_x > 0:
+        if key_collected == True and player.change_x > 0:
             Key.key_move_x += player.change_x + 2
-        elif key_moving == True and player.change_x < 0:
+        elif key_collected == True and player.change_x < 0:
             Key.key_move_x += player.change_x - 2    
             
         

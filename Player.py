@@ -11,7 +11,7 @@ class Caged_Bunny(pygame.sprite.Sprite):
         self.y = y
         super().__init__()
         sprite_sheet = SpriteSheet("Caged Bunnies.png")
-        image = sprite_sheet.get_image(239, 207, 113, 99)
+        image = sprite_sheet.get_image(359, 311, 171, 149)
         self.caged_bunny_list.append(image)
         image.set_colorkey(Constants.WHITE)
         
@@ -19,9 +19,9 @@ class Caged_Bunny(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
-        def update(self):
-            self.rect.x = self.x - self.platform_move_x
-            self.rect.y = self.y
+    def update(self):
+        self.rect.x = self.x - self.Cage_move_x
+     
 class Key(pygame.sprite.Sprite):
     key_list = []
     key_move_x = 0 
@@ -33,24 +33,24 @@ class Key(pygame.sprite.Sprite):
         self.y = y
         super().__init__()
         sprite_sheet = SpriteSheet("Sprites.png")
-        image = sprite_sheet.get_image(309,1,65,66)
+        image = sprite_sheet.get_image(544,4,82,86)
         self.key_list.append(image)
         image.set_colorkey(Constants.WHITE)
         
         self.image = self.key_list[0]
         self.rect = self.image.get_rect()        
-        self.rect.x = self.y 
-        self.rect.y = self.x
+        self.rect.x =self.x
+        self.rect.y =self.y 
     def update(self):
         if self.move == False:
             self.rect.x = self.x - self.key_move_x
         elif self.move == True:
-            self.rect.x += self.change
+            self.rect.x = 10
         
     def move_key(self):
-        self.rect.x = -10
+        self.rect.x = 10
         self.rect.y = 20
-        move = True
+        self.move = True
     
     
         
@@ -179,10 +179,13 @@ class Player(pygame.sprite.Sprite):
         self.change_x -= 3
         self.direction = "L"
     def jump(self):
-        if self.rect.y >= 70:
-            self.change_y = -13
+        if self.change_y <= 0:
+            if self.rect.y >= 70:
+                self.change_y = -13
+            else:
+                self.change_y = 1
         else:
-            self.change_y = 1
+            None
         
 class Animated_Player(pygame.sprite.Sprite):
     
