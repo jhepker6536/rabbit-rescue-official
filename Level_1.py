@@ -14,12 +14,15 @@ screen = pygame.display.set_mode([width,hight], pygame.FULLSCREEN, 32)
 def level_one():
     pygame.init()
     mouse_x = 0 
+    key_moving = True
     mouse_y = 0 
+    key_x = 200
+    key_y = 300
     floor_x = 0  
     caged_bunny_list = pygame.sprite.Group()
     platform_list = pygame.sprite.Group()
     active_sprite_list = pygame.sprite.Group()
-    
+    key_list = pygame.sprite.Group()
     
     platform_test = Platform(floor_x,674,0)
     platform1 = Platform(400,450,1)
@@ -30,14 +33,12 @@ def level_one():
      
     player = Player(25,400,platform_list,True,Player.black_bunny, hight)
     caged_bunny = Caged_Bunny(500,300) 
-    key = Key(200,300,active_sprite_list)
+    key = Key(key_x,key_y,player.change_x)
     
-    
+    key_list.add(key)
     caged_bunny_list.add(caged_bunny)
-    
     platform_list.add(platform_test, platform2, platform1,platform3,platform5,platform6)
-    
-    active_sprite_list.add(player,platform_test,platform2,platform1,platform3,platform5,platform6, caged_bunny,key)
+    active_sprite_list.add(player,platform_test,platform2,platform1,platform3,platform5,platform6,key)
     
     background_x_change = 0 
     font2 = pygame.font.SysFont('Calibri', 30, True, False)
@@ -80,8 +81,7 @@ def level_one():
         screen.fill(Constants.WHITE)
         screen.blit(background_image, [background_x, 0])
         
-        active_sprite_list.update()
-        active_sprite_list.draw(screen)
+        
         if player.rect.x <=0:
             player.rect.x = 0
         #quit
@@ -93,16 +93,33 @@ def level_one():
             floor_x = -7
         mouse_x = pos[0]
         mouse_y = pos[1]
-                
+        
+        
+        block_hit_list = pygame.sprite.spritecollide(player, key_list, False)
+        for block in block_hit_list:
+            key.move_key()
+            key_moving = False
+            print(key_x)
+        
+        if key_moving == True and player.change_x > 0:
+            Key.key_move_x += player.change_x + 2
+        elif key_moving == True and player.change_x < 0:
+            Key.key_move_x += player.change_x - 2    
+            
+        
         if player.change_x > 0:
             Platform.platform_move_x += player.change_x + 2
-            Platform.platform_move_x += player.change_x + 2 
+            Caged_Bunny.Cage_move_x += player.change_x + 2 
         elif player.change_x < 0:
-            Platform.platform_move_x += player.change_x - 2 
+            Platform.platform_move_x += player.change_x - 2
+            Caged_Bunny.Cage_move_x += player.change_x - 2 
         background_x += background_x_change 
-        platform_test.update()
+        
         if player.rect.x == width:
             Platform.platform_move_x += 3
+        active_sprite_list.update()
+        active_sprite_list.draw(screen)    
+            
         pygame.display.flip()
         clock.tick(60)
     pygame.quit()

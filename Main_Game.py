@@ -132,8 +132,6 @@ def main():
                         level += 1
                         if level == 1:
                             level_one()
-                            if level_one.player.rect.x == 1000:
-                                level += 1
                             
                         if level == 2:
                             level_two()

@@ -20,12 +20,16 @@ class Caged_Bunny(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
         def update(self):
-            self.rect.x = self.x - self.Cage_move_x
+            self.rect.x = self.x - self.platform_move_x
+            self.rect.y = self.y
 class Key(pygame.sprite.Sprite):
     key_list = []
-    def __init__(self, x,y,list):
+    key_move_x = 0 
+    move = False
+    def __init__(self, x,y,change):
         self.x = x
-        self.list = list
+        self.change = change
+        self.player = list
         self.y = y
         super().__init__()
         sprite_sheet = SpriteSheet("Sprites.png")
@@ -38,10 +42,15 @@ class Key(pygame.sprite.Sprite):
         self.rect.x = self.y 
         self.rect.y = self.x
     def update(self):
-        block_hit_list = pygame.sprite.spritecollide(self, self.list, False)
-        for block in block_hit_list:
-            self.rect.x = 50
-            self.rect.y = 400
+        if self.move == False:
+            self.rect.x = self.x - self.key_move_x
+        elif self.move == True:
+            self.rect.x += self.change
+        
+    def move_key(self):
+        self.rect.x = -10
+        self.rect.y = 20
+        move = True
     
     
         
@@ -141,7 +150,7 @@ class Player(pygame.sprite.Sprite):
             self.change_y = 0
 
             
-            print ("hit")
+            
         
         
               
