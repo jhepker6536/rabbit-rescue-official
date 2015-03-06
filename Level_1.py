@@ -31,7 +31,7 @@ def level_one():
     platform6 = Platform(2400,250,1)
      
     player = Player(25,400,platform_list,True,Player.black_bunny, hight)
-    caged_bunny = Caged_Bunny(3050,525) 
+    caged_bunny = Caged_Bunny(3050,525,platform_list) 
     key = Key(key_x,key_y,player.change_x)
     
     key_list.add(key)
@@ -102,7 +102,11 @@ def level_one():
             
         block_hit_list = pygame.sprite.spritecollide(player, caged_bunny_list, False)
         for block in block_hit_list:
+            pass
             if key_collected == True:
+                caged_bunny.free()
+            else:
+                caged_bunny.get_the_key()
             
         
         if key_collected == True and player.change_x > 0:

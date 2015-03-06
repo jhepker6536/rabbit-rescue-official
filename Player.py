@@ -6,12 +6,20 @@ import random
 class Caged_Bunny(pygame.sprite.Sprite):
     caged_bunny_list = []
     Cage_move_x = 0 
-    def __init__(self,x,y):
+    image_num = 1
+    def __init__(self,x,y,platform):
         self.x = x
         self.y = y
+        self.platform = platform
         super().__init__()
         sprite_sheet = SpriteSheet("Caged Bunnies.png")
         image = sprite_sheet.get_image(359, 311, 171, 149)
+        self.caged_bunny_list.append(image)
+        image.set_colorkey(Constants.WHITE)
+        image = sprite_sheet.get_image(558, 399, 211, 339)
+        self.caged_bunny_list.append(image)
+        image.set_colorkey(Constants.WHITE)
+        image = sprite_sheet.get_image(767, 305, 208, 431)
         self.caged_bunny_list.append(image)
         image.set_colorkey(Constants.WHITE)
         
@@ -19,9 +27,15 @@ class Caged_Bunny(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
+        block_hit_list = pygame.sprite.spritecollide(self, self.platform, False)
+        for block in block_hit_list:
+            self.rect.bottom = block.rect.top
     def update(self):
         self.rect.x = self.x - self.Cage_move_x
-     
+    def free(self):
+        self.image_num = 1
+    def get_the_key(self):
+        self.image_num = 2
 class Key(pygame.sprite.Sprite):
     key_list = []
     key_move_x = 0 
