@@ -4,7 +4,6 @@ from Player import Player
 from Player import Key
 from Player import Caged_Bunny
 from Player import Snake
-from Player import snake_box
 import Constants
 from Platforms import Platform
 from Spritesheet import SpriteSheet 
@@ -24,7 +23,6 @@ def level_one():
     platform_list = pygame.sprite.Group()
     active_sprite_list = pygame.sprite.Group()
     key_list = pygame.sprite.Group()
-    snake_box_list = pygame.sprite.Group()
     
     platform_test = Platform(floor_x,674,0)
     platform1 = Platform(400,450,1)
@@ -32,17 +30,15 @@ def level_one():
     platform3 = Platform(1600,430,1)
     platform6 = Platform(2400,250,1)
     
-    snake_box1 = snake_box(screen, 380,350,390)
-    snake = Snake(400,370,720,400,snake_box_list)
     player = Player(25,400,platform_list,True,Player.black_bunny, hight)
+    snake = Snake(400,370,720,400,player.change_x)
     caged_bunny = Caged_Bunny(3050,525,platform_list) 
     key = Key(key_x,key_y,player.change_x)
     
     key_list.add(key)
     caged_bunny_list.add(caged_bunny)
-    snake_box_list.add(snake_box1)
     platform_list.add(platform_test, platform2, platform1,platform3,platform6)
-    active_sprite_list.add(caged_bunny,player,platform_test,platform2,platform1,platform3,platform6,key,snake)
+    active_sprite_list.add(caged_bunny,player,platform_test,platform2,platform1,platform3,platform6,key)
     
     background_x_change = 0 
     font2 = pygame.font.SysFont('Calibri', 30, True, False)
@@ -85,7 +81,7 @@ def level_one():
         screen.fill(Constants.WHITE)
         screen.blit(background_image, [background_x, 0])
         
-        print(player.rect.x)
+        
         if player.rect.x <=0:
             player.rect.x = 0
         #quit
@@ -103,7 +99,7 @@ def level_one():
         for block in block_hit_list:
             key.move_key()
             key_collected = True
-            print(key_x)
+            
             
         block_hit_list = pygame.sprite.spritecollide(player, caged_bunny_list, False)
         for block in block_hit_list:
@@ -113,24 +109,25 @@ def level_one():
             if key_collected == False:
                 caged_bunny.get_the_key()
             
-            
+        print(Snake.snake_screen_adjust)   
         
         if key_collected == False and player.change_x > 0:
             Key.key_move_x += player.change_x + 2
         elif key_collected == False and player.change_x < 0:
             Key.key_move_x += player.change_x - 2    
             
-        snake_box1.draw()
         if player.change_x > 0:
             Platform.platform_move_x += player.change_x + 2
             Caged_Bunny.Cage_move_x += player.change_x + 2
-            snake_box.snake_box_move_x -= player.change_x + 2 
+            snake.limit_left()
+            
              
         elif player.change_x < 0:
             Platform.platform_move_x += player.change_x - 2
-            Caged_Bunny.Cage_move_x += player.change_x - 2 
-            snake_box.snake_box_move_x -= player.change_x - 2
-        snake.rect.x += Platform.platform_move_x   
+            Caged_Bunny.Cage_move_x += player.change_x - 2
+            snake.limit_right()
+            
+        Snake.snake_screen_adjust = player.change_x 
         background_x += background_x_change 
         
         if player.rect.x == width:

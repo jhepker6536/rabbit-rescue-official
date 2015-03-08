@@ -3,27 +3,20 @@ from Spritesheet import SpriteSheet
 import Constants
 import random 
 #Player Colors
-class snake_box(pygame.sprite.Sprite):
-    snake_box_move_x = 0
-    def __init__(self,screen,x,y,width):
-        super().__init__()
-        self.x = x
-        self.y = y
-        self.width = width
-        self.screen = screen
-        self.rect = [x,y,self.width,150]
-    def draw(self):
-        pygame.draw.rect(self.screen, Constants.BLACK, [self.x + self.snake_box_move_x, self.y, self.width, 150], 1)
+
+
 class Snake(pygame.sprite.Sprite):
     snake_right = []
     snake_left = []
     change_x = 0
     change_y = 0
     direction = "R"
-    snake_move_x = 3 
-    def __init__(self,x,y,limit1,limit2,snake_box):
+    snake_move_x = 4
+    snake_screen_adjust = 0
+      
+    def __init__(self,x,y,limit1,limit2,playermove):
         self.x = x
-        self.snake_box = snake_box
+        self.playermove = playermove
         self.y = y
         self.limit1 = limit1
         self.limit2 = limit2
@@ -50,10 +43,12 @@ class Snake(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
     def update(self):
-        
+        self.limit1
+        self.limit2
         self.rect.y += self.change_y 
         self.rect.x += self.change_x 
-        
+        print(self.limit1)
+        print(self.limit2)
         pos = self.rect.x 
         
         if self.direction == "R":
@@ -63,12 +58,20 @@ class Snake(pygame.sprite.Sprite):
             frame = (pos // 20) % len(self.snake_left)
             self.image = self.snake_left[frame]
             
-        block_hit_list = pygame.sprite.spritecollide(self, self.snake_box, False)
-        for block in block_hit_list:
-            self.snake_move_x = 3
-            if self.rect.right == block.rect.right:
-                self.snake_move * -1
-            
+        if self.rect.x >= self.limit1:
+            self.direction = "L"
+            self.change_x = -4
+        elif self.rect.x <= self.limit2:
+            self.direction = "R"
+            self.change_x = 4
+    def limit_left(self):
+        self.limit1 += self.playermove+2
+        self.limit2 += self.playermove+2
+        print("limit_left")
+    def limit_right(self):
+        self.limit1 -= self.playermove-2
+        self.limit2 -= self.playermove-2
+        print("limitright")
         
     
 class Caged_Bunny(pygame.sprite.Sprite):
@@ -88,7 +91,7 @@ class Caged_Bunny(pygame.sprite.Sprite):
         image = sprite_sheet.get_image(531, 395, 220, 343)
         self.caged_bunny_list.append(image)
         image.set_colorkey(Constants.WHITE)
-        image = sprite_sheet.get_image(759, 300, 215, 430)
+        image = sprite_sheet.get_image(759, 89, 215, 641)
         self.caged_bunny_list.append(image)
         image.set_colorkey(Constants.WHITE)
         
@@ -103,7 +106,7 @@ class Caged_Bunny(pygame.sprite.Sprite):
         elif self.image_num == 1:
             self.rect.y = self.y - 190
         elif self.image_num == 2: 
-            self.rect.y = self.y - 283
+            self.rect.y = self.y - 494
         self.rect.x = self.x - self.Cage_move_x
     def free(self):
         self.image_num = 2
@@ -246,7 +249,7 @@ class Player(pygame.sprite.Sprite):
         if self.change_y == 0:
             self.change_y += 1
         else:
-            self.change_y += .35
+            self.change_y += .45
             
         if self.rect.y <= self.height - 96 and self.change_y == 0:
             self.rect.y = self.height - 95   

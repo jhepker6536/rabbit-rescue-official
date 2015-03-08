@@ -132,8 +132,7 @@ def main():
                         level += 1
                         if level == 1:
                             level_one()
-                            
-                        if level == 2:
+                        elif level == 2:
                             level_two()
                     elif mouse_x >= 398 and mouse_x <= 649 and mouse_y >= 574 and mouse_y <= 666:
                         print("got it load")

@@ -1,10 +1,13 @@
 import pygame 
 import random 
-import Player
+
 from Player import Player
+from Player import Key
+from Player import Caged_Bunny
+from Player import Snake
 import Constants
 from Platforms import Platform
-from Spritesheet import SpriteSheet
+from Spritesheet import SpriteSheet 
 width = 1366
 hight = 768
 screen = pygame.display.set_mode([width,hight], pygame.FULLSCREEN, 32)
@@ -12,28 +15,40 @@ screen = pygame.display.set_mode([width,hight], pygame.FULLSCREEN, 32)
 def level_two():
     pygame.init()
     mouse_x = 0 
+    key_collected = False
     mouse_y = 0 
+    key_x = 1740
+    key_y = 300
     floor_x = 0  
+    caged_bunny_list = pygame.sprite.Group()
     platform_list = pygame.sprite.Group()
+    active_sprite_list = pygame.sprite.Group()
+    key_list = pygame.sprite.Group()
+    
     platform_test = Platform(floor_x,674,0)
     platform1 = Platform(400,450,1)
-    platform2 = Platform(1000,350,1)
-    platform3 = Platform(1500,450,1)
-    platform5 = Platform(2000,350,1)
+    platform2 = Platform(925,250,1)
+    platform3 = Platform(1600,430,1)
     platform6 = Platform(2400,250,1)
-    platform_list.add(platform_test, platform2, platform1,platform3,platform5,platform6) 
+    
     player = Player(25,400,platform_list,True,Player.black_bunny, hight)
+    snake = Snake(400,370,720,400,player.change_x)
+    caged_bunny = Caged_Bunny(3050,525,platform_list) 
+    key = Key(key_x,key_y,player.change_x)
     
+    key_list.add(key)
+    caged_bunny_list.add(caged_bunny)
+    platform_list.add(platform_test, platform2, platform1,platform3,platform6)
+    active_sprite_list.add(caged_bunny,player,platform_test,platform2,platform1,platform3,platform6,key)
     
-    active_sprite_list = pygame.sprite.Group()
-    active_sprite_list.add(player,platform_test,platform2,platform1,platform3,platform5,platform6)
     background_x_change = 0 
     font2 = pygame.font.SysFont('Calibri', 30, True, False)
     text11 = font2.render("Exit",True,Constants.RED)
     
     clock = pygame.time.Clock()
     done = False
-    background_image = pygame.image.load("Forest Background.png")
+    
+    background_image = pygame.image.load("Forest Background2.png")
     background_x = 0
     
     while not done:
@@ -67,8 +82,7 @@ def level_two():
         screen.fill(Constants.WHITE)
         screen.blit(background_image, [background_x, 0])
         
-        active_sprite_list.update()
-        active_sprite_list.draw(screen)
+        
         if player.rect.x <=0:
             player.rect.x = 0
         #quit
@@ -80,13 +94,52 @@ def level_two():
             floor_x = -7
         mouse_x = pos[0]
         mouse_y = pos[1]
-                
-        Platform.platform_move_x += player.change_x 
-        background_x += background_x_change
-        platform_test.update()
         
+        caged_bunny_list.draw(screen)
+        block_hit_list = pygame.sprite.spritecollide(player, key_list, False)
+        for block in block_hit_list:
+            key.move_key()
+            key_collected = True
+            
+            
+        block_hit_list = pygame.sprite.spritecollide(player, caged_bunny_list, False)
+        for block in block_hit_list:
+            pass
+            if key_collected == True:
+                caged_bunny.free()
+            if key_collected == False:
+                caged_bunny.get_the_key()
+            
+        print(Snake.snake_screen_adjust)   
+        
+        if key_collected == False and player.change_x > 0:
+            Key.key_move_x += player.change_x + 2
+        elif key_collected == False and player.change_x < 0:
+            Key.key_move_x += player.change_x - 2    
+            
+        if player.change_x > 0:
+            Platform.platform_move_x += player.change_x + 2
+            Caged_Bunny.Cage_move_x += player.change_x + 2
+            snake.limit_left()
+            
+             
+        elif player.change_x < 0:
+            Platform.platform_move_x += player.change_x - 2
+            Caged_Bunny.Cage_move_x += player.change_x - 2
+            snake.limit_right()
+            
+        Snake.snake_screen_adjust = player.change_x 
+        background_x += background_x_change 
+        
+        if player.rect.x == width:
+            Platform.platform_move_x += 3
+        active_sprite_list.update()
+        active_sprite_list.draw(screen)    
+        if player.rect.x >= 1300 and key_collected == True:
+            
+            pygame.quit()    
         pygame.display.flip()
         clock.tick(60)
     pygame.quit()
 if __name__ == "__main__":
-    level_two() 
+    level_two()
