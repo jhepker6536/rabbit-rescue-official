@@ -4,22 +4,44 @@ import Constants
 import random 
 #Player Colors
 
-
+class Snake_limits(pygame.sprite.Sprite):
+    limit_move = 0 
+    snake_limit_list = []
+    def __init__(self,x,y,speed,platform):
+        super().__init__()
+        
+        self.x = x
+        self.y = y
+        self.platform = platform
+        self.speed = speed
+        
+        sprite_sheet = SpriteSheet("Caged Bunnies.png")
+        image = sprite_sheet.get_image(589, 70, 2, 12)
+        self.snake_limit_list.append(image)
+          
+        self.image = self.snake_limit_list[0]
+        self.rect = self.image.get_rect()
+        
+    def update(self):
+        self.rect.x = self.x - self.limit_move
+        self.rect.y = self.y
+                
+    
 class Snake(pygame.sprite.Sprite):
     snake_right = []
     snake_left = []
-    change_x = 0
+    change_x = 4
     change_y = 0
     direction = "R"
-    snake_move_x = 4
+    snake_move_x = 2
     snake_screen_adjust = 0
       
-    def __init__(self,x,y,limit1,limit2,playermove):
+    def __init__(self,x,y,limit, limit1, limit2):
         self.x = x
-        self.playermove = playermove
-        self.y = y
-        self.limit1 = limit1
         self.limit2 = limit2
+        self.y = y
+        self.limit = limit
+        self.limit1 = limit1
         super().__init__()
         sprite_sheet = SpriteSheet("Snakes.png")
         image = sprite_sheet.get_image(4, 1, 115, 82)
@@ -42,13 +64,11 @@ class Snake(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
-    def update(self):
+    def update(self): 
+        self.rect.x += self.change_x 
         self.limit1
         self.limit2
-        self.rect.y += self.change_y 
-        self.rect.x += self.change_x 
         print(self.limit1)
-        print(self.limit2)
         pos = self.rect.x 
         
         if self.direction == "R":
@@ -58,20 +78,12 @@ class Snake(pygame.sprite.Sprite):
             frame = (pos // 20) % len(self.snake_left)
             self.image = self.snake_left[frame]
             
-        if self.rect.x >= self.limit1:
+        if self.rect.x > self.limit1: 
+            self.change_x = self.change_x * -1
             self.direction = "L"
-            self.change_x = -4
-        elif self.rect.x <= self.limit2:
+        if self.rect.x < self.limit1: 
+            self.change_x = self.change_x * -1
             self.direction = "R"
-            self.change_x = 4
-    def limit_left(self):
-        self.limit1 += self.playermove+2
-        self.limit2 += self.playermove+2
-        print("limit_left")
-    def limit_right(self):
-        self.limit1 -= self.playermove-2
-        self.limit2 -= self.playermove-2
-        print("limitright")
         
     
 class Caged_Bunny(pygame.sprite.Sprite):

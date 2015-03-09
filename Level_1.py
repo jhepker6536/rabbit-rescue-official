@@ -4,9 +4,10 @@ from Player import Player
 from Player import Key
 from Player import Caged_Bunny
 from Player import Snake
+from Player import Snake_limits
 import Constants
 from Platforms import Platform
-from Spritesheet import SpriteSheet 
+ 
 width = 1366
 hight = 768
 screen = pygame.display.set_mode([width,hight], pygame.FULLSCREEN, 32)
@@ -23,6 +24,9 @@ def level_one():
     platform_list = pygame.sprite.Group()
     active_sprite_list = pygame.sprite.Group()
     key_list = pygame.sprite.Group()
+    limit_list = pygame.sprite.Group()
+   
+    
     
     platform_test = Platform(floor_x,674,0)
     platform1 = Platform(400,450,1)
@@ -31,14 +35,20 @@ def level_one():
     platform6 = Platform(2400,250,1)
     
     player = Player(25,400,platform_list,True,Player.black_bunny, hight)
-    snake = Snake(400,370,720,400,player.change_x)
+    limitone = Snake_limits(400, 375, player.change_x, platform_list)
+    limittwo = Snake_limits(766, 375, player.change_x, platform_list)
+    snake = Snake(400,370,limit_list, 750,390)
     caged_bunny = Caged_Bunny(3050,525,platform_list) 
     key = Key(key_x,key_y,player.change_x)
     
+    #snake limits
+    
+    
     key_list.add(key)
+    limit_list.add(limitone,limittwo)
     caged_bunny_list.add(caged_bunny)
     platform_list.add(platform_test, platform2, platform1,platform3,platform6)
-    active_sprite_list.add(caged_bunny,player,platform_test,platform2,platform1,platform3,platform6,key)
+    active_sprite_list.add(caged_bunny,player,platform_test,platform2,platform1,platform3,platform6,key,snake)
     
     background_x_change = 0 
     font2 = pygame.font.SysFont('Calibri', 30, True, False)
@@ -109,7 +119,7 @@ def level_one():
             if key_collected == False:
                 caged_bunny.get_the_key()
             
-        print(Snake.snake_screen_adjust)   
+
         
         if key_collected == False and player.change_x > 0:
             Key.key_move_x += player.change_x + 2
@@ -119,15 +129,19 @@ def level_one():
         if player.change_x > 0:
             Platform.platform_move_x += player.change_x + 2
             Caged_Bunny.Cage_move_x += player.change_x + 2
-            snake.limit_left()
-            
+            Snake_limits.limit_move += player.change_x + 2
+            Snake.snake_screen_adjust += player.change_x
+            snake.limit1 -= player.change_x + 2
+            snake.limit2 -= player.change_x + 2
              
         elif player.change_x < 0:
             Platform.platform_move_x += player.change_x - 2
             Caged_Bunny.Cage_move_x += player.change_x - 2
-            snake.limit_right()
+            Snake_limits.limit_move += player.change_x - 2
+            Snake.snake_screen_adjust += player.change_x 
+            snake.limit1 += player.change_x - 2
+            snake.limit2 += player.change_x - 2
             
-        Snake.snake_screen_adjust = player.change_x 
         background_x += background_x_change 
         
         if player.rect.x == width:

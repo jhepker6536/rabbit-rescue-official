@@ -32,7 +32,7 @@ def level_two():
     platform6 = Platform(2400,250,1)
     
     player = Player(25,400,platform_list,True,Player.black_bunny, hight)
-    snake = Snake(400,370,720,400,player.change_x)
+    
     caged_bunny = Caged_Bunny(3050,525,platform_list) 
     key = Key(key_x,key_y,player.change_x)
     
