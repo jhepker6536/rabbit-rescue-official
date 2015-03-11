@@ -1,53 +1,51 @@
 import pygame 
 import random 
-from Player import Player
+from Player import Player, Caged_Bunny,Key
 from Player import Animated_Player
-from Level_1 import level_one_class
-from Level_2 import level_two_class
+from Platforms import Platform
+from Level_1 import level_one
+from Level_2 import level_two
 import Constants
+import Level_2
+ 
+
 # Define some colors 
-BLACK    = (   0,   0,   0)
-WHITE    = ( 255, 255, 255)
-GREEN    = (   0, 255,   0)
-RED      = ( 255,   0,   0)
-BLUE     = (  16,  81, 148)
-PURPLE   = ( 163,  73, 164)
-YELLOW   = (255, 242, 0)
-GREEN    = (34, 177, 76)
-#Screen Size and creation
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+BLUE = (16, 81, 148)
+PURPLE = (163, 73, 164)
+YELLOW = (255, 242, 0)
+GREEN = (34, 177, 76)
+# Screen Size and creation
 width = 1366
 hight = 768
-screen = pygame.display.set_mode((width,hight), pygame.FULLSCREEN, 32)
+screen = pygame.display.set_mode((width, hight), pygame.FULLSCREEN, 32)
 
-#Button Rectangle class
+# Button Rectangle class
 
 
 def main():
     """ Main function for the game. """
     pygame.init()
       
-    #Random Variables
+    # Random Variables
     
     
    
        
     # Ad sprites to list 
     empty_platform_list = []
-    running_bunny = Animated_Player(Animated_Player.bunny_list[random.randrange(0,3)],width)
-    running_bunny2 = Animated_Player(Animated_Player.bunny_list[random.randrange(0,3)],width)
-    running_bunny3 = Animated_Player(Animated_Player.bunny_list[random.randrange(0,3)],width)
-    running_bunny4 = Animated_Player(Animated_Player.bunny_list[random.randrange(0,3)],width)
+    running_bunny = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width)
+    running_bunny2 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width)
+    running_bunny3 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width)
+    running_bunny4 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width)
     active_sprite_list = pygame.sprite.Group()
     active_sprite_list.add(running_bunny) 
     active_sprite_list.add(running_bunny2)
     active_sprite_list.add(running_bunny3)
-    active_sprite_list.add(running_bunny4) 
-    
-    
-    level_list = []
-    level_list.append(level_one_class,level_two_class)
-    current_level_no = 0
-    current_level = level_list[current_level_no]
+    active_sprite_list.add(running_bunny4)
     
     
     # All blitted Text
@@ -60,35 +58,34 @@ def main():
     text2.set_colorkey(WHITE)
     text3.set_colorkey(WHITE)
     
-    text4 = font.render("INSERT GAME HERE",True,RED)
-    text5 = font.render("LOAD SCREEN",True,RED)
-    text6 = font.render("<-BACK",True,RED)
-    text7 = font2.render("DIFFICULTY",True,RED)
-    text11 = font2.render("Exit",True,RED)
+    text4 = font.render("INSERT GAME HERE", True, RED)
+    text5 = font.render("LOAD SCREEN", True, RED)
+    text6 = font.render("<-BACK", True, RED)
+    text7 = font2.render("DIFFICULTY", True, RED)
+    text11 = font2.render("Exit", True, RED)
         
    
-    #cursor picture
+    # cursor picture
     
     pygame.mouse.set_visible(True)
     
-    #load logo screen
+    # load logo screen
     logo = pygame.image.load('LOADER.png')
     title = pygame.image.load('title_logo.png')
     title.set_colorkey(WHITE)
-    #Creat instance of button rectangles 
+    # Creat instance of button rectangles 
     
  
-    #Loop until the user clicks the close button.
+    # Loop until the user clicks the close button.
     done = False
     really_done = False
  
     # Used to manage how fast the screen updates
     clock = pygame.time.Clock()
-    
-    #What screen we see and background
+    Constants.level = 1
+    # What screen we see and background
     background_image = pygame.image.load("Field.png")
-    screen_view = 0
-    level = 0 
+    screen_view = 0 
     font = pygame.font.Font(None, 25)
     frame_count = 0
     frame_rate = 60
@@ -97,24 +94,23 @@ def main():
     while not really_done:
         print(Constants.level)
         # child loop containing loading screen!
-        while screen_view == 0 and done == False and level == 0:
+        while screen_view == 0 and done == False:
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT:
                     done = True 
                     really_done = True  
                     
-            #Background logo
+            # Background logo
             screen.fill(BLACK)
-            screen.blit(logo, [0,0])
+            screen.blit(logo, [0, 0])
             
-            #count
+            # count
             total_seconds = frame_count // frame_rate
             seconds = total_seconds % 60
-            print(seconds)
             frame_count += 1 
             if seconds == 1:
                 screen_view = 1
-            #mouse
+            # mouse
             
             pos = pygame.mouse.get_pos()
             mouse_x = pos[0]
@@ -126,22 +122,29 @@ def main():
             clock.tick(frame_rate)            
             
         # child while loop, containing menu!
-        while screen_view == 1 and done == False and level == 0:
+        while screen_view == 1 and done == False:
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT:
                     done = True 
                     really_done = True
-                #Do they hit the bottons and change mouse anamation
+                # Do they hit the bottons and change mouse anamation
                 elif event.type == pygame.MOUSEBUTTONDOWN:                   
                     if mouse_x >= 399 and mouse_x <= 917 and mouse_y >= 325 and mouse_y <= 416:
                         print("game") 
-                        screen_view = 2
-                        
+                        while (Constants.level == 1):
+                            level_one()
+                        while (Constants.level == 2):
+                            Platform.platform_move_x = 0 
+                            Caged_Bunny.Cage_move_x = 0 
+                            Key.key_move_x = 0 
+                            level_two()  
+                        while (Constants.level == 3):
+                            pygame.quit()
                     elif mouse_x >= 398 and mouse_x <= 649 and mouse_y >= 574 and mouse_y <= 666:
                         print("got it load")
                         color2 = WHITE 
                         screen_view = 3
-                        (399,575,250,91)
+                        (399, 575, 250, 91)
                     elif mouse_x >= 398 and mouse_x <= 889 and mouse_y >= 450 and mouse_y <= 541:
                         print("and again setting")
                         color3 = GREEN
@@ -149,11 +152,11 @@ def main():
                     elif mouse_x >= 1199 and mouse_x <= 1249 and mouse_y >= 649 and mouse_y <= 778:
                         done = True
                         really_done = True                     
-                #Do they let off the mouse button change mouse
+                # Do they let off the mouse button change mouse
                    
                     
-            #Background
-            screen.blit(background_image,[0,0])
+            # Background
+            screen.blit(background_image, [0, 0])
             
             
             total_seconds = frame_count // frame_rate
@@ -161,21 +164,20 @@ def main():
             seconds = total_seconds % 60
             print(seconds)
             frame_count += 1
-            #Creat Buttons
-            screen.blit(title, [250,100])            
+            # Creat Buttons
+            screen.blit(title, [250, 100])            
             screen.blit(text1, [400, 300])
             screen.blit(text2, [400, 425])
-            screen.blit(text3, [400, 550])
             
-            #quit
-            screen.blit(text11, [1200,650])
+            # quit
+            screen.blit(text11, [1200, 650])
             
             
-            #Creat Bunny
+            # Creat Bunny
             active_sprite_list.draw(screen)
             active_sprite_list.update()
     
-            #Chanage mouse pic
+            # Chanage mouse pic
             pos = pygame.mouse.get_pos()
             mouse_x = pos[0]
             mouse_y = pos[1]
@@ -184,45 +186,9 @@ def main():
     
             # Limit to 20 frames per second
             clock.tick(frame_rate)
-             
-       # child while loop, containing game!!
-        while screen_view == 2 and done == False and level == 0:
-                for event in pygame.event.get(): 
-                    if event.type == pygame.QUIT:
-                        done = True 
-                        really_done = True
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        if mouse_x >= 99 and mouse_x <= 249 and mouse_y >= 349 and mouse_y <= 398:
-                            screen_view = 1 
-                        elif mouse_x >= 1199 and mouse_x <= 1249 and mouse_y >= 649 and mouse_y <= 778:
-                            done = True
-                            really_done = True                     
-                       
-                                                              
-                #Background
-                
-                total_seconds = frame_count // frame_rate
-                minutes = total_seconds // 60
-                seconds = total_seconds % 60
-                current_level.update()
-                  
-                frame_count += 1
-                
-                
-                 
-                
-                
-                
-                pygame.display.update()
-                pygame.display.flip()
-         
-                # Limit to 20 frames per second
-                clock.tick(frame_rate)
-                
-                
-                
+
         # child while loop, containing load screen!
-        while screen_view == 3 and done == False and level == 0:
+        while screen_view == 3 and done == False:
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT:
                     done = True 
@@ -234,23 +200,23 @@ def main():
                         done = True
                         really_done = True                 
 
-                #Creat Background
+                # Creat Background
                 screen.fill(BLACK)
                 total_seconds = frame_count // frame_rate
                 minutes = total_seconds // 60
                 seconds = total_seconds % 60
                 print (seconds) 
                 frame_count += 1
-                #Creat Buttons
+                # Creat Buttons
                 screen.blit(text5, [200, 300])
                 
                 screen.blit(text6, [100, 350])    
                 
-                #quit
-                screen.blit(text11, [1200,650])
+                # quit
+                screen.blit(text11, [1200, 650])
                  
                 
-                #Change Mouse
+                # Change Mouse
                 
                 pos = pygame.mouse.get_pos()
                 mouse_x = pos[0]
@@ -267,7 +233,7 @@ def main():
         COLOR5 = RED
         COLOR6 = RED                
         # child while loop, containing setttings screen!
-        while screen_view == 4 and done == False and level == 0:
+        while screen_view == 4 and done == False:
                 for event in pygame.event.get(): 
                     if event.type == pygame.QUIT:
                         done = True
@@ -294,29 +260,29 @@ def main():
                             
                        
                                       
-                    #Background
+                    # Background
                     screen.fill(BLACK)
                     total_seconds = frame_count // frame_rate
                     minutes = total_seconds // 60
                     seconds = total_seconds % 60
                     
                     print (seconds)
-                    frame_count +=1                   
-                    #Creat Buttons
+                    frame_count += 1                   
+                    # Creat Buttons
                     
                     
                                         
-                    text8 = font2.render("EASY",True,COLOR4)
-                    text9 = font2.render("MEDIUM",True,COLOR5)
-                    text10 = font2.render("HARD",True,COLOR6)                    
+                    text8 = font2.render("EASY", True, COLOR4)
+                    text9 = font2.render("MEDIUM", True, COLOR5)
+                    text10 = font2.render("HARD", True, COLOR6)                    
                     screen.blit(text6, [100, 350])
                     screen.blit(text7, [200, 100])
                     screen.blit(text8, [200, 160])
                     screen.blit(text9, [275, 160])
                     screen.blit(text10, [400, 160])
-                    screen.blit(text11, [1200,650])
+                    screen.blit(text11, [1200, 650])
                     
-                    #Change mouse
+                    # Change mouse
                     
                     pos = pygame.mouse.get_pos()
                     mouse_x = pos[0]

@@ -289,7 +289,7 @@ class Player(pygame.sprite.Sprite):
             if self.rect.y >= 70:
                 self.change_y = -13
             else:
-                self.change_y = 2
+                self.change_y = 3
         else:
             None
         
@@ -303,10 +303,11 @@ class Animated_Player(pygame.sprite.Sprite):
     walking_frames_r = []
     walking_frames_u = []
     brown_bunny = ([35,2,95,88],[20,101,110,122],[5,226,137,116])
-    black_bunny = ([179,0,102,88],[183,89,111,115],[175,198,137,131])
+    black_bunny = ([179,0,102,88],[183,89,111,113],[175,198,137,130])
     green_bunny = ([389,14,99,88],[389,114,115,123],[367,232,139,127])
     blue_bunny = ([595,0,93,88],[612,92,115,123],[535,214,141,122])
-    bunny_list = (brown_bunny, black_bunny, green_bunny, blue_bunny)
+    purple_bunny =([475,350,98,89],[486,470,110,112],[460,580,132,94])
+    bunny_list = (brown_bunny, black_bunny, green_bunny, blue_bunny,purple_bunny)
     direction = "R"
 
     
@@ -317,29 +318,29 @@ class Animated_Player(pygame.sprite.Sprite):
         self.x = random.randrange(-500, -50)
         self.y = random.randrange(100, 700)
         self.width = width 
-
+        self.bunny_color = bunny_color 
         super().__init__()
         sprite_sheet = SpriteSheet("Rabbit_Sprite.png")
-        image = sprite_sheet.get_image(bunny_color[0][0],bunny_color[0][1],bunny_color[0][2],bunny_color[0][3])
+        image = sprite_sheet.get_image(self.bunny_color[0][0],self.bunny_color[0][1],self.bunny_color[0][2],self.bunny_color[0][3])
         self.walking_frames_r.append(image)
         image.set_colorkey(Constants.YELLOW)
-        image = sprite_sheet.get_image(bunny_color[1][0],bunny_color[1][1],bunny_color[1][2],bunny_color[1][3])
+        image = sprite_sheet.get_image(self.bunny_color[1][0],self.bunny_color[1][1],self.bunny_color[1][2],self.bunny_color[1][3])
         self.walking_frames_r.append(image)
         image.set_colorkey(Constants.YELLOW)
-        image = sprite_sheet.get_image(bunny_color[2][0],bunny_color[2][1],bunny_color[2][2],bunny_color[2][3])
+        image = sprite_sheet.get_image(self.bunny_color[2][0],self.bunny_color[2][1],self.bunny_color[2][2],self.bunny_color[2][3])
         self.walking_frames_r.append(image)
         image.set_colorkey(Constants.YELLOW)
         
         
-        image = sprite_sheet.get_image(bunny_color[0][0],bunny_color[0][1],bunny_color[0][2],bunny_color[0][3])
+        image = sprite_sheet.get_image(self.bunny_color[0][0],self.bunny_color[0][1],self.bunny_color[0][2],self.bunny_color[0][3])
         image = pygame.transform.flip(image, True, False)
         self.walking_frames_l.append(image)
         image.set_colorkey(Constants.YELLOW)
-        image = sprite_sheet.get_image(bunny_color[1][0],bunny_color[1][1],bunny_color[1][2],bunny_color[1][3])
+        image = sprite_sheet.get_image(self.bunny_color[1][0],self.bunny_color[1][1],self.bunny_color[1][2],self.bunny_color[1][3])
         image = pygame.transform.flip(image, True, False)
         self.walking_frames_l.append(image)
         image.set_colorkey(Constants.YELLOW)
-        image = sprite_sheet.get_image(bunny_color[2][0],bunny_color[2][1],bunny_color[2][2],bunny_color[2][3])
+        image = sprite_sheet.get_image(self.bunny_color[2][0],self.bunny_color[2][1],self.bunny_color[2][2],self.bunny_color[2][3])
         image = pygame.transform.flip(image, True, False)
         self.walking_frames_l.append(image)
         image.set_colorkey(Constants.YELLOW)
