@@ -16,6 +16,7 @@ screen = pygame.display.set_mode([width,hight], pygame.FULLSCREEN, 32)
 
 def level_one():
     pygame.init()
+    level_limit = 1300
     mouse_x = 0 
     key_collected = False
     mouse_y = 0 
@@ -93,7 +94,7 @@ def level_one():
         screen.fill(Constants.WHITE)
         screen.blit(background_image, [background_x, 0])
         
-        
+        Constants.current_position = player.rect.x
         if player.rect.x <=0:
             player.rect.x = 0
         #quit
@@ -150,17 +151,14 @@ def level_one():
             Platform.platform_move_x += 3
         active_sprite_list.update()
         active_sprite_list.draw(screen)    
-<<<<<<< HEAD
-           
-=======
-        if player.rect.x >= 1300 and key_collected == True:
-            pygame.quit()
->>>>>>> origin/master
+
         pygame.display.flip()
         clock.tick(60)
-        if player.rect.x >= 1300 and key_collected == True:
-            Constants.level += 1
-             
+        
     pygame.quit()
 if __name__ == "__main__":
     level_one() 
+class level_one_class():
+    def __init__(self, player):
+        level_one()
+    

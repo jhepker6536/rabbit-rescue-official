@@ -2,8 +2,8 @@ import pygame
 import random 
 from Player import Player
 from Player import Animated_Player
-from Level_1 import level_one
-from Level_2 import level_two
+from Level_1 import level_one_class
+from Level_2 import level_two_class
 import Constants
 # Define some colors 
 BLACK    = (   0,   0,   0)
@@ -42,6 +42,12 @@ def main():
     active_sprite_list.add(running_bunny2)
     active_sprite_list.add(running_bunny3)
     active_sprite_list.add(running_bunny4) 
+    
+    
+    level_list = []
+    level_list.append(level_one_class,level_two_class)
+    current_level_no = 0
+    current_level = level_list[current_level_no]
     
     
     # All blitted Text
@@ -128,18 +134,8 @@ def main():
                 #Do they hit the bottons and change mouse anamation
                 elif event.type == pygame.MOUSEBUTTONDOWN:                   
                     if mouse_x >= 399 and mouse_x <= 917 and mouse_y >= 325 and mouse_y <= 416:
-                        print("game")
-<<<<<<< HEAD
-                        while Constants.level == 1:
-                            level_one()
-                        while Constants.level == 2:
-=======
+                        print("game") 
                         screen_view = 2
-                        while level == 1:
-                            level_one()
-                        while level == 2:
->>>>>>> origin/master
-                            level_two()
                         
                     elif mouse_x >= 398 and mouse_x <= 649 and mouse_y >= 574 and mouse_y <= 666:
                         print("got it load")
@@ -208,17 +204,15 @@ def main():
                 total_seconds = frame_count // frame_rate
                 minutes = total_seconds // 60
                 seconds = total_seconds % 60
+                current_level.update()
                   
                 frame_count += 1
                 
-                screen.blit(text11, [1200,650])
+                
                  
                 
-                #Change Mouse
                 
-                pos = pygame.mouse.get_pos()
-                mouse_x = pos[0]
-                mouse_y = pos[1]
+                
                 pygame.display.update()
                 pygame.display.flip()
          

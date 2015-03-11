@@ -143,3 +143,6 @@ def level_two():
     pygame.quit()
 if __name__ == "__main__":
     level_two()
+class level_two_class():
+    def __init__(self, player):
+        level_two()
