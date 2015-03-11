@@ -165,9 +165,10 @@ class Player(pygame.sprite.Sprite):
     walking_frames_r = []
     walking_frames_u = []
     brown_bunny = ([35,2,95,88],[20,101,110,122],[5,226,137,116])
-    black_bunny = ([179,0,102,88],[178,88,116,106],[175,198,137,131])
+    black_bunny = ([179,0,102,88],[183,89,111,113],[175,198,137,130])
     green_bunny = ([389,14,99,88],[389,114,115,123],[367,232,139,127])
     blue_bunny = ([595,0,93,88],[612,92,115,123],[535,214,141,122])
+    purple_bunny =([475,350,98,89],[486,470,110,112],[460,580,132,94])
     direction = "R"
 
     
@@ -314,10 +315,10 @@ class Animated_Player(pygame.sprite.Sprite):
     level = None
 
     
-    def __init__(self,bunny_color,width): 
-        self.x = random.randrange(-500, -50)
-        self.y = random.randrange(100, 700)
+    def __init__(self,bunny_color,width,left): 
+        
         self.width = width 
+        self.going_left = left
         self.bunny_color = bunny_color 
         super().__init__()
         sprite_sheet = SpriteSheet("Rabbit_Sprite.png")
@@ -351,9 +352,16 @@ class Animated_Player(pygame.sprite.Sprite):
         self.image = self.walking_frames_r[0]
         self.rect = self.image.get_rect()        
         image.set_colorkey(Constants.YELLOW)
+        
+        
+        if self.going_left == False:
+            self.x = random.randrange(-500, -50)
+            self.y = random.randrange(100, 400)
+        else:
+            self.x = random.randrange(1000, 1300)
+            self.y = random.randrange(300, 700)
         self.rect.y = self.y
         self.rect.x = self.x
-
     def update(self):
         
         
@@ -373,13 +381,15 @@ class Animated_Player(pygame.sprite.Sprite):
         if self.rect.x >= self.width:
             self.rect.x = random.randrange(-100,-50)
         
-        self.change_x = 3
+        if self.going_left == False:
+            self.change_x = 3
         self.direction = "R"
     
-    
+        if self.going_left == True:
+            self.go_left()
      
     def go_left(self):
-        self.change_x -= 3
+        self.change_x = -3
         self.direction = "L"
     
         

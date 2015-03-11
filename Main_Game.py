@@ -37,10 +37,10 @@ def main():
        
     # Ad sprites to list 
     empty_platform_list = []
-    running_bunny = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width)
-    running_bunny2 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width)
-    running_bunny3 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width)
-    running_bunny4 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width)
+    running_bunny = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width,False)
+    running_bunny2 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width,False)
+    running_bunny3 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width,True)
+    running_bunny4 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width,True)
     active_sprite_list = pygame.sprite.Group()
     active_sprite_list.add(running_bunny) 
     active_sprite_list.add(running_bunny2)
