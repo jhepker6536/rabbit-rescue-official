@@ -150,7 +150,12 @@ def level_one():
             Platform.platform_move_x += 3
         active_sprite_list.update()
         active_sprite_list.draw(screen)    
+<<<<<<< HEAD
            
+=======
+        if player.rect.x >= 1300 and key_collected == True:
+            pygame.quit()
+>>>>>>> origin/master
         pygame.display.flip()
         clock.tick(60)
         if player.rect.x >= 1300 and key_collected == True:
