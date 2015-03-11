@@ -4,6 +4,7 @@ from Player import Player
 from Player import Animated_Player
 from Level_1 import level_one
 from Level_2 import level_two
+import Constants
 # Define some colors 
 BLACK    = (   0,   0,   0)
 WHITE    = ( 255, 255, 255)
@@ -88,7 +89,7 @@ def main():
     start_time = 90 
     # Parent while loop
     while not really_done:
-        
+        print(Constants.level)
         # child loop containing loading screen!
         while screen_view == 0 and done == False and level == 0:
             for event in pygame.event.get(): 
@@ -128,12 +129,11 @@ def main():
                 elif event.type == pygame.MOUSEBUTTONDOWN:                   
                     if mouse_x >= 399 and mouse_x <= 917 and mouse_y >= 325 and mouse_y <= 416:
                         print("game")
-                        screen_view = 2
-                        level += 1
-                        if level == 1:
+                        while Constants.level == 1:
                             level_one()
-                        elif level == 2:
+                        while Constants.level == 2:
                             level_two()
+                        
                     elif mouse_x >= 398 and mouse_x <= 649 and mouse_y >= 574 and mouse_y <= 666:
                         print("got it load")
                         color2 = WHITE 
@@ -197,18 +197,13 @@ def main():
                        
                                                               
                 #Background
-                screen.fill(BLACK)
+                
                 total_seconds = frame_count // frame_rate
                 minutes = total_seconds // 60
                 seconds = total_seconds % 60
-                print (seconds)    
+                  
                 frame_count += 1
-                #Creat Buttons
-                screen.blit(text4, [200, 300])
                 
-                screen.blit(text6, [100, 350]) 
-                
-                #quit
                 screen.blit(text11, [1200,650])
                  
                 

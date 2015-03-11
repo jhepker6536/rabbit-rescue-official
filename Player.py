@@ -251,20 +251,24 @@ class Player(pygame.sprite.Sprite):
             # Stop our vertical movement
             self.change_y = 0
 
-            
+        if self.rect.x <= 5:
+            self.rect.x = 5    
             
         
         
               
     def calc_grav(self):    
         
-        if self.change_y == 0:
-            self.change_y += 1
+        if self.rect.y <= 655:
+            if self.change_y == 0:
+                self.change_y += 1
+            else:
+                self.change_y += .45
+                
+            if self.rect.y <= self.height - 96 and self.change_y == 0:
+                self.rect.y = self.height - 95  
         else:
-            self.change_y += .45
-            
-        if self.rect.y <= self.height - 96 and self.change_y == 0:
-            self.rect.y = self.height - 95   
+            None 
 
     def go_right(self):
         self.change_x = 3
@@ -285,7 +289,7 @@ class Player(pygame.sprite.Sprite):
             if self.rect.y >= 70:
                 self.change_y = -13
             else:
-                self.change_y = 1
+                self.change_y = 2
         else:
             None
         

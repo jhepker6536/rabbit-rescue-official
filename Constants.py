@@ -17,6 +17,7 @@ GRASS_200 = (269, 0, 200, 40)
 GRASS_300 = (0, 55, 300, 40)
 GRASS_400 = (41, 113, 400, 40)
 
+level = 1 
 
 #Screen Size and creation
 width = 1366

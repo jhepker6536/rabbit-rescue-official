@@ -7,6 +7,8 @@ from Player import Snake
 from Player import Snake_limits
 import Constants
 from Platforms import Platform
+
+
  
 width = 1366
 hight = 768
@@ -48,7 +50,7 @@ def level_one():
     limit_list.add(limitone,limittwo)
     caged_bunny_list.add(caged_bunny)
     platform_list.add(platform_test, platform2, platform1,platform3,platform6)
-    active_sprite_list.add(caged_bunny,player,platform_test,platform2,platform1,platform3,platform6,key,snake)
+    active_sprite_list.add(caged_bunny,player,platform_test,platform2,platform1,platform3,platform6,key)
     
     background_x_change = 0 
     font2 = pygame.font.SysFont('Calibri', 30, True, False)
@@ -148,10 +150,12 @@ def level_one():
             Platform.platform_move_x += 3
         active_sprite_list.update()
         active_sprite_list.draw(screen)    
-        if player.rect.x >= 1300 and key_collected == True:
-            pygame.quit()    
+           
         pygame.display.flip()
         clock.tick(60)
+        if player.rect.x >= 1300 and key_collected == True:
+            Constants.level += 1
+             
     pygame.quit()
 if __name__ == "__main__":
     level_one() 

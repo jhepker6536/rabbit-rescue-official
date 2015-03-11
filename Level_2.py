@@ -49,7 +49,7 @@ def level_two():
     done = False
     
     background_image = pygame.image.load("Forest Background2.png")
-    background_x = 0
+    background_x = -100
     
     while not done:
     
@@ -120,13 +120,13 @@ def level_two():
         if player.change_x > 0:
             Platform.platform_move_x += player.change_x + 2
             Caged_Bunny.Cage_move_x += player.change_x + 2
-            snake.limit_left()
+            
             
              
         elif player.change_x < 0:
             Platform.platform_move_x += player.change_x - 2
             Caged_Bunny.Cage_move_x += player.change_x - 2
-            snake.limit_right()
+            
             
         Snake.snake_screen_adjust = player.change_x 
         background_x += background_x_change 
@@ -137,7 +137,7 @@ def level_two():
         active_sprite_list.draw(screen)    
         if player.rect.x >= 1300 and key_collected == True:
             
-            pygame.quit()    
+            Constants.level += 1    
         pygame.display.flip()
         clock.tick(60)
     pygame.quit()
