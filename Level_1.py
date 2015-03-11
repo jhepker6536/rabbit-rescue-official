@@ -149,7 +149,7 @@ def level_one():
         active_sprite_list.update()
         active_sprite_list.draw(screen)    
         if player.rect.x >= 1300 and key_collected == True:
-            pygame.quit()    
+            pygame.quit()
         pygame.display.flip()
         clock.tick(60)
     pygame.quit()

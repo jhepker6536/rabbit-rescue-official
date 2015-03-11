@@ -120,13 +120,13 @@ def level_two():
         if player.change_x > 0:
             Platform.platform_move_x += player.change_x + 2
             Caged_Bunny.Cage_move_x += player.change_x + 2
-            snake.limit_left()
+            
             
              
         elif player.change_x < 0:
             Platform.platform_move_x += player.change_x - 2
             Caged_Bunny.Cage_move_x += player.change_x - 2
-            snake.limit_right()
+            
             
         Snake.snake_screen_adjust = player.change_x 
         background_x += background_x_change 

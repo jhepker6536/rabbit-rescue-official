@@ -129,10 +129,9 @@ def main():
                     if mouse_x >= 399 and mouse_x <= 917 and mouse_y >= 325 and mouse_y <= 416:
                         print("game")
                         screen_view = 2
-                        level += 1
-                        if level == 1:
+                        while level == 1:
                             level_one()
-                        elif level == 2:
+                        while level == 2:
                             level_two()
                     elif mouse_x >= 398 and mouse_x <= 649 and mouse_y >= 574 and mouse_y <= 666:
                         print("got it load")
