@@ -37,10 +37,11 @@ def level_one():
     platform3 = Platform(1600,430,1)
     platform6 = Platform(2400,250,1)
     
-    player = Player(25,400,platform_list,True,Player.blue_bunny, hight)
+    player = Player(25,400,platform_list,True,Player.black_bunny, hight)
     limitone = Snake_limits(400, 375, player.change_x, platform_list)
     limittwo = Snake_limits(766, 375, player.change_x, platform_list)
-    snake = Snake(400,370,limit_list, 750,390)
+    limit_list.add(limitone,limittwo)
+    snake = Snake(400,370,platform1.rect.x - 15, platform1.rect.x + 370)
     caged_bunny = Caged_Bunny(3050,525,platform_list) 
     key = Key(key_x,key_y,player.change_x)
     
@@ -48,10 +49,10 @@ def level_one():
     
     
     key_list.add(key)
-    limit_list.add(limitone,limittwo)
+    
     caged_bunny_list.add(caged_bunny)
     platform_list.add(platform_test, platform2, platform1,platform3,platform6)
-    active_sprite_list.add(caged_bunny,player,platform_test,platform2,platform1,platform3,platform6,key)
+    active_sprite_list.add(caged_bunny,player,platform_test,platform2,platform1,platform3,platform6,key,snake,limitone,limittwo)
     
     background_x_change = 0 
     font2 = pygame.font.SysFont('Calibri', 30, True, False)
@@ -131,17 +132,15 @@ def level_one():
             Platform.platform_move_x += player.change_x + 2
             Caged_Bunny.Cage_move_x += player.change_x + 2
             Snake_limits.limit_move += player.change_x + 2
-            Snake.snake_screen_adjust += player.change_x
-            snake.limit1 -= player.change_x + 2
-            snake.limit2 -= player.change_x + 2
+            
+            
              
         elif player.change_x < 0:
             Platform.platform_move_x += player.change_x - 2
             Caged_Bunny.Cage_move_x += player.change_x - 2
             Snake_limits.limit_move += player.change_x - 2
-            Snake.snake_screen_adjust += player.change_x 
-            snake.limit1 += player.change_x - 2
-            snake.limit2 += player.change_x - 2
+             
+            
             
         background_x += background_x_change 
         

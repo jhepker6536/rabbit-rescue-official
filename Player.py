@@ -33,15 +33,14 @@ class Snake(pygame.sprite.Sprite):
     change_x = 4
     change_y = 0
     direction = "R"
-    snake_move_x = 2
     snake_screen_adjust = 0
       
-    def __init__(self,x,y,limit, limit1, limit2):
+    def __init__(self,x,y,limit, limit2):
         self.x = x
-        self.limit2 = limit2
+        
         self.y = y
         self.limit = limit
-        self.limit1 = limit1
+        self.limit2 = limit2
         super().__init__()
         sprite_sheet = SpriteSheet("Snakes.png")
         image = sprite_sheet.get_image(4, 1, 115, 82)
@@ -66,9 +65,6 @@ class Snake(pygame.sprite.Sprite):
         self.rect.y = self.y
     def update(self): 
         self.rect.x += self.change_x 
-        self.limit1
-        self.limit2
-        print(self.limit1)
         pos = self.rect.x 
         
         if self.direction == "R":
@@ -77,13 +73,11 @@ class Snake(pygame.sprite.Sprite):
         elif self.direction == "L":
             frame = (pos // 20) % len(self.snake_left)
             self.image = self.snake_left[frame]
-            
-        if self.rect.x > self.limit1: 
-            self.change_x = self.change_x * -1
-            self.direction = "L"
-        if self.rect.x < self.limit1: 
-            self.change_x = self.change_x * -1
-            self.direction = "R"
+        if self.rect.x <= self.limit2 or self.rect.x >= self.limit:
+            self.turn_around()   
+        
+    def turn_around(self):
+        self.change_x = self.change_x * -1
         
     
 class Caged_Bunny(pygame.sprite.Sprite):
@@ -391,5 +385,32 @@ class Animated_Player(pygame.sprite.Sprite):
     def go_left(self):
         self.change_x = -3
         self.direction = "L"
+class Not_Moving_Bunny():
     
+    brown_bunny = ([35,2,95,88],[20,101,110,122],[5,226,137,116])
+    black_bunny = ([179,0,102,88],[183,89,111,113],[175,198,137,130])
+    green_bunny = ([389,14,99,88],[389,114,115,123],[367,232,139,127])
+    blue_bunny = ([595,0,93,88],[612,92,115,123],[535,214,141,122])
+    purple_bunny =([475,350,98,89],[486,470,110,112],[460,580,132,94])
+    bunny_list = (brown_bunny, black_bunny, green_bunny, blue_bunny,purple_bunny)
+    
+    def __init__(self,bunny_color, x, y): 
         
+        self.x = x 
+        self.y = y
+        self.bunny_color = bunny_color 
+        rabbit = []
+        super().__init__()
+        
+        sprite_sheet = SpriteSheet("Rabbit_Sprite.png")
+        image = sprite_sheet.get_image(self.bunny_list[self.bunny_color][0],self.bunny_color[self.bunny_color][1],self.bunny_color[self.bunny_color][2],self.bunny_color[self.bunny_color][3])
+        self.rabbit.append(image)
+        image.set_colorkey(Constants.YELLOW)
+        
+        
+        self.image = self.rabbit[0]
+        self.rect = self.image.get_rect()        
+        image.set_colorkey(Constants.YELLOW)
+    
+        self.rect.y = self.y
+        self.rect.x = self.x

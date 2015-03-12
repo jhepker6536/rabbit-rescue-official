@@ -16,7 +16,7 @@ hight = 768
 def level_two():
     pygame.init()
     screen = pygame.display.set_mode([width,hight], pygame.FULLSCREEN, 32)
-    mouse_x = 0 
+    mouse_x = 0  
     key_collected = False
     mouse_y = 0 
     key_x = 1740

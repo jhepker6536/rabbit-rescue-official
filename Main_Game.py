@@ -1,6 +1,6 @@
 import pygame 
 import random 
-from Player import Player, Caged_Bunny,Key
+from Player import Player, Caged_Bunny,Key, Not_Moving_Bunny
 from Player import Animated_Player
 from Platforms import Platform
 from Level_1 import level_one
@@ -24,12 +24,12 @@ hight = 768
 screen = pygame.display.set_mode((width, hight), pygame.FULLSCREEN, 32)
 
 # Button Rectangle class
-
+ 
 
 def main():
     """ Main function for the game. """
     pygame.init()
-      
+    rabbit_color = None   
     # Random Variables
     
     
@@ -37,6 +37,15 @@ def main():
        
     # Ad sprites to list 
     empty_platform_list = []
+    
+    sitting_bunny_list = pygame.sprite.Group()
+    Brown_Bunny = Not_Moving_Bunny(1,100,200)
+    Black_Bunny = Not_Moving_Bunny(2,300,200)
+    Green_Bunny = Not_Moving_Bunny(3,500,200)
+    Blue_Bunny = Not_Moving_Bunny(4,100,400)
+    Purple_Bunny = Not_Moving_Bunny(5,300,400)
+    sitting_bunny_list.add(Brown_Bunny,Black_Bunny,Blue_Bunny,Green_Bunny,Purple_Bunny)
+    
     running_bunny = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width,False)
     running_bunny2 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width,False)
     running_bunny3 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width,True)
@@ -269,7 +278,7 @@ def main():
                     print (seconds)
                     frame_count += 1                   
                     # Creat Buttons
-                    
+                    sitting_bunny_list.draw()
                     
                                         
                     text8 = font2.render("EASY", True, COLOR4)
