@@ -2,6 +2,7 @@ import pygame
 from Spritesheet import SpriteSheet
 import Constants
 import random 
+import Player
 #Player Colors
 
 class Snake_limits(pygame.sprite.Sprite):
@@ -30,17 +31,18 @@ class Snake_limits(pygame.sprite.Sprite):
 class Snake(pygame.sprite.Sprite):
     snake_right = []
     snake_left = []
-    change_x = 4
+    change_x = 0
     change_y = 0
     direction = "R"
+    move_x = 0
     snake_screen_adjust = 0
       
-    def __init__(self,x,y,limit, limit2):
+    def __init__(self,x,y):
         self.x = x
         
         self.y = y
-        self.limit = limit
-        self.limit2 = limit2
+        self.limit = Constants.snake_limit_one
+        self.limit2 = Constants.snake_limit_two
         super().__init__()
         sprite_sheet = SpriteSheet("Snakes.png")
         image = sprite_sheet.get_image(4, 1, 115, 82)
@@ -64,8 +66,13 @@ class Snake(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
     def update(self): 
-        self.rect.x += self.change_x 
+        self.change_x = 3
+        self.rect.x += self.change_x
         pos = self.rect.x 
+        self.limit 
+        self.limit2
+        
+        
         
         if self.direction == "R":
             frame = (pos // 20) % len(self.snake_right)
@@ -73,9 +80,13 @@ class Snake(pygame.sprite.Sprite):
         elif self.direction == "L":
             frame = (pos // 20) % len(self.snake_left)
             self.image = self.snake_left[frame]
-        if self.rect.x <= self.limit2 or self.rect.x >= self.limit:
+            
+        if self.rect.x >= self.limit2: 
             self.turn_around()   
-        
+        if self.rect.x >= self.limit:    
+            self.turn_around()
+            
+        print(self.move_x, self.change_x)
     def turn_around(self):
         self.change_x = self.change_x * -1
         
@@ -284,7 +295,7 @@ class Player(pygame.sprite.Sprite):
             if self.rect.y >= 70:
                 self.change_y = -13
             else:
-                self.change_y = 3
+                self.change_y = 5
         else:
             None
         
@@ -393,22 +404,27 @@ class Not_Moving_Bunny():
     blue_bunny = ([595,0,93,88],[612,92,115,123],[535,214,141,122])
     purple_bunny =([475,350,98,89],[486,470,110,112],[460,580,132,94])
     bunny_list = (brown_bunny, black_bunny, green_bunny, blue_bunny,purple_bunny)
-    
-    def __init__(self,bunny_color, x, y): 
-        
+    rabbit = None
+    rabbit_list = []
+    def __init__(self,c, x, y): 
+        super().__init__()
         self.x = x 
         self.y = y
-        self.bunny_color = bunny_color 
-        rabbit = []
-        super().__init__()
+        self.bunny_color = c
+        self.rabbit = self.bunny_list[self.bunny_color]
+        self.rabbit_x = self.rabbit[0][0]
+        self.rabbit_y = self.rabbit[0][1]
+        self.rabbit_w = self.rabbit[0][2]
+        self.rabbit_l = self.rabbit[0][3]
+        
         
         sprite_sheet = SpriteSheet("Rabbit_Sprite.png")
-        image = sprite_sheet.get_image(self.bunny_list[self.bunny_color][0],self.bunny_color[self.bunny_color][1],self.bunny_color[self.bunny_color][2],self.bunny_color[self.bunny_color][3])
-        self.rabbit.append(image)
+        image = sprite_sheet.get_image(self.rabbit_x,self.rabbit_y,self.rabbit_w,self.rabbit_l)
+        self.rabbit_list.append(image)
         image.set_colorkey(Constants.YELLOW)
         
         
-        self.image = self.rabbit[0]
+        self.image = self.rabbit_list[0]
         self.rect = self.image.get_rect()        
         image.set_colorkey(Constants.YELLOW)
     

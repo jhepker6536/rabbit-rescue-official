@@ -39,23 +39,19 @@ def main():
     empty_platform_list = []
     
     sitting_bunny_list = pygame.sprite.Group()
-    Brown_Bunny = Not_Moving_Bunny(1,100,200)
-    Black_Bunny = Not_Moving_Bunny(2,300,200)
-    Green_Bunny = Not_Moving_Bunny(3,500,200)
-    Blue_Bunny = Not_Moving_Bunny(4,100,400)
-    Purple_Bunny = Not_Moving_Bunny(5,300,400)
-    sitting_bunny_list.add(Brown_Bunny,Black_Bunny,Blue_Bunny,Green_Bunny,Purple_Bunny)
+    Brown_Bunny = Not_Moving_Bunny(0,100,200)
+    Black_Bunny = Not_Moving_Bunny(1,300,200)
+    Green_Bunny = Not_Moving_Bunny(2,500,200)
+    Blue_Bunny = Not_Moving_Bunny(3,100,400)
+    Purple_Bunny = Not_Moving_Bunny(4,300,400)
+
     
     running_bunny = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width,False)
     running_bunny2 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width,False)
     running_bunny3 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width,True)
     running_bunny4 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width,True)
     active_sprite_list = pygame.sprite.Group()
-    active_sprite_list.add(running_bunny) 
-    active_sprite_list.add(running_bunny2)
-    active_sprite_list.add(running_bunny3)
-    active_sprite_list.add(running_bunny4)
-    
+    active_sprite_list.add(running_bunny,running_bunny2,running_bunny3,running_bunny4,Brown_Bunny,Black_Bunny,Blue_Bunny,Green_Bunny,Purple_Bunny) 
     
     # All blitted Text
     font2 = pygame.font.SysFont('Calibri', 30, True, False)
@@ -101,6 +97,7 @@ def main():
     start_time = 90 
     # Parent while loop
     while not really_done:
+        
         print(Constants.level)
         # child loop containing loading screen!
         while screen_view == 0 and done == False:
