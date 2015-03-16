@@ -90,6 +90,8 @@ def main():
     Constants.level = 1
     # What screen we see and background
     background_image = pygame.image.load("Field.png")
+    color_picker = pygame.image.load('Bunny_Chooser.png')
+    color_picker.set_colorkey(Constants.YELLOW)
     screen_view = 0 
     font = pygame.font.Font(None, 25)
     frame_count = 0
@@ -284,7 +286,8 @@ def main():
                     # Creat Buttons
                     sitting_bunny_list.draw(screen)
                     
-                    screen.blit(background_image, [0, 0])                    
+                    screen.blit(background_image, [0, 0])
+                    screen.blit(color_picker, [300,500])                    
                     text8 = font2.render("EASY", True, COLOR4)
                     text9 = font2.render("MEDIUM", True, COLOR5)
                     text10 = font2.render("HARD", True, COLOR6)                    
