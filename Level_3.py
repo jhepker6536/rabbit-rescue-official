@@ -14,7 +14,7 @@ width = 1366
 hight = 768
 
 
-def level_one(color):
+def level_three(color):
     pygame.init()
     screen = pygame.display.set_mode([width,hight], pygame.FULLSCREEN, 32)
     mouse_x = 0
@@ -68,27 +68,30 @@ def level_one(color):
     platform_list.add(platform_test, platform2, platform1,platform3,platform6)
     active_sprite_list.add(caged_bunny,player,platform_test,platform2,platform1,platform3,platform6,key)
     
-    background_x_change = 0 
+    background_y_change = 0 
     font2 = pygame.font.SysFont('Calibri', 30, True, False)
     text11 = font2.render("Exit",True,Constants.RED)
     
     clock = pygame.time.Clock()
     done = False
     
-    background_image = pygame.image.load("field_background.png")
+    background_image = pygame.image.load("Up_Down.png")
     background_x = 0
+    background_y = 11000
     
     while not done:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     player.go_left()
-                    background_x_change += 2
+                    
                 elif event.key == pygame.K_RIGHT:
                     player.go_right()
-                    background_x_change -= 2 
+                
                 elif event.key == pygame.K_SPACE:
                     player.jump()
+                    
+                    
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT and player.change_x < 0:
                     player.stop()
@@ -104,10 +107,10 @@ def level_one(color):
                     raise SystemExit
 
             
-                                    
-            
+        background_y += Player.rect.y                            
+        print(background_y)    
         screen.fill(Constants.WHITE)
-        screen.blit(background_image, [background_x, 0])
+        screen.blit(background_image, [background_x, background_y])
         
         #quit
         screen.blit(text11, [1200,650])    
@@ -141,22 +144,12 @@ def level_one(color):
         elif key_collected == False and player.change_x < 0:
             Key.key_move_x += player.change_x - 2    
             
-        if player.change_x > 0:
-            Platform.platform_move_x += player.change_x + 2
-            Caged_Bunny.Cage_move_x += player.change_x + 2
-            Snake_limits.limit_move += player.change_x + 2
-            Constants.snake_limit_one += player.change_x + 2
-            Constants.snake_limit_two += player.change_x + 2
-            snake.move_x += player.change_x + 2
+        
              
-        elif player.change_x < 0:
-            Platform.platform_move_x += player.change_x - 2
-            Caged_Bunny.Cage_move_x += player.change_x - 2
-            Snake_limits.limit_move += player.change_x - 2
-            Constants.snake_limit_one += player.change_x - 2
-            Constants.snake_limit_two += player.change_x - 2
-            snake.move_x += player.change_x - 2
-        background_x += background_x_change 
+
+        Platform.platform_move_y = background_y_change
+            
+        background_y += background_y_change 
         
         if player.rect.x == width:
             Platform.platform_move_x += 3
@@ -170,5 +163,5 @@ def level_one(color):
         
     pygame.quit()
 if __name__ == "__main__":
-    level_one() 
+    level_three("white") 
     
