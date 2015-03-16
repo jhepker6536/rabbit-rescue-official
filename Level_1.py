@@ -14,7 +14,7 @@ width = 1366
 hight = 768
 
 
-def level_one():
+def level_one(color):
     pygame.init()
     screen = pygame.display.set_mode([width,hight], pygame.FULLSCREEN, 32)
     mouse_x = 0
@@ -23,6 +23,20 @@ def level_one():
     key_x = 1740
     key_y = 300
     floor_x = 0  
+    
+    
+    if color == "Blue":
+        player_color = Player.blue_bunny
+    elif color == "Brown":
+        player_color = Player.brown_bunny
+    elif color == "Purple":
+        player_color = Player.purple_bunny
+    elif color == "Green":
+        player_color = Player.green_bunny    
+    else:
+        player_color = Player.black_bunny
+        
+        
     caged_bunny_list = pygame.sprite.Group()
     platform_list = pygame.sprite.Group()
     active_sprite_list = pygame.sprite.Group()
@@ -34,7 +48,7 @@ def level_one():
     platform3 = Platform(1600,430,1)
     platform6 = Platform(2400,250,1)
     
-    player = Player(25,400,platform_list,True,Player.black_bunny, hight)
+    player = Player(25,400,platform_list,True,player_color, hight)
     snake = Snake(400,370)
     caged_bunny = Caged_Bunny(3050,525,platform_list) 
     key = Key(key_x,key_y,player.change_x)
@@ -151,3 +165,4 @@ def level_one():
     pygame.quit()
 if __name__ == "__main__":
     level_one() 
+    
