@@ -39,27 +39,24 @@ def main():
     empty_platform_list = []
     
     sitting_bunny_list = pygame.sprite.Group()
-    Brown_Bunny = Not_Moving_Bunny(1,100,200)
-    Black_Bunny = Not_Moving_Bunny(2,300,200)
-    Green_Bunny = Not_Moving_Bunny(3,500,200)
-    Blue_Bunny = Not_Moving_Bunny(4,100,400)
-    Purple_Bunny = Not_Moving_Bunny(5,300,400)
-    sitting_bunny_list.add(Brown_Bunny,Black_Bunny,Blue_Bunny,Green_Bunny,Purple_Bunny)
+    Brown_Bunny = Not_Moving_Bunny(0,100,200)
+    Black_Bunny = Not_Moving_Bunny(1,300,200)
+    Green_Bunny = Not_Moving_Bunny(2,500,200)
+    Blue_Bunny = Not_Moving_Bunny(3,100,400)
+    Purple_Bunny = Not_Moving_Bunny(4,300,400)
+
     
     running_bunny = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width,False)
     running_bunny2 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width,False)
     running_bunny3 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width,True)
     running_bunny4 = Animated_Player(Animated_Player.bunny_list[random.randrange(0, 4)], width,True)
     active_sprite_list = pygame.sprite.Group()
-    active_sprite_list.add(running_bunny) 
-    active_sprite_list.add(running_bunny2)
-    active_sprite_list.add(running_bunny3)
-    active_sprite_list.add(running_bunny4)
-    
+    active_sprite_list.add(running_bunny,running_bunny2,running_bunny3,running_bunny4) 
     
     # All blitted Text
-    font2 = pygame.font.SysFont('Calibri', 30, True, False)
-    font = pygame.font.SysFont('comicsansms', 90, True, False)
+    font2 = pygame.font.SysFont('Calibri', 50, True, False)
+    font3 = pygame.font.SysFont('Calibri', 60, True, False)
+    font = pygame.font.SysFont('comicsansms', 70, True, False)
     text1 = pygame.image.load('PlayGameButton.png')
     text2 = pygame.image.load('Settingsbutton.png')
     text3 = pygame.image.load('Loadscreen.png')
@@ -94,13 +91,21 @@ def main():
     Constants.level = 1
     # What screen we see and background
     background_image = pygame.image.load("Field.png")
-    screen_view = 0 
+    background_image2 = pygame.image.load("Field_old_look.png")
+    color_picker = pygame.image.load('Bunny_Chooser.png')
+    color_picker.set_colorkey(Constants.YELLOW)
+    screen_view = 0
     font = pygame.font.Font(None, 25)
     frame_count = 0
     frame_rate = 60
     start_time = 90 
+    r_box_x = 330
+    r_box_y = 300
+    difficulty = "easy"
+    color = "Black"
     # Parent while loop
     while not really_done:
+        
         print(Constants.level)
         # child loop containing loading screen!
         while screen_view == 0 and done == False:
@@ -117,7 +122,7 @@ def main():
             total_seconds = frame_count // frame_rate
             seconds = total_seconds % 60
             frame_count += 1 
-            if seconds == 1:
+            if seconds == 2:
                 screen_view = 1
             # mouse
             
@@ -141,13 +146,18 @@ def main():
                     if mouse_x >= 399 and mouse_x <= 917 and mouse_y >= 325 and mouse_y <= 416:
                         print("game") 
                         while (Constants.level == 1):
-                            level_one()
+                            level_one(color)
                         while (Constants.level == 2):
                             Platform.platform_move_x = 0 
                             Caged_Bunny.Cage_move_x = 0 
                             Key.key_move_x = 0 
-                            level_two()  
+                            level_two(color)  
                         while (Constants.level == 3):
+                            Platform.platform_move_x = 0 
+                            Caged_Bunny.Cage_move_x = 0 
+                            Key.key_move_x = 0 
+                            level_two(color)
+                        while(Constants.level == 4):
                             pygame.quit()
                     elif mouse_x >= 398 and mouse_x <= 649 and mouse_y >= 574 and mouse_y <= 666:
                         print("got it load")
@@ -249,24 +259,62 @@ def main():
                         really_done = True
                     elif event.type == pygame.MOUSEBUTTONDOWN:
                           
-                        if mouse_x >= 99 and mouse_x <= 249 and mouse_y >= 349 and mouse_y <= 398:
+                        if mouse_x >= 99 and mouse_x <= 370 and mouse_y >= 549 and mouse_y <= 630:
                             screen_view = 1
-                        elif mouse_x >= 199 and mouse_x <= 264 and mouse_y >= 159 and mouse_y <= 188:
+                        elif mouse_x >= 800 and mouse_x <= 890 and mouse_y >= 259 and mouse_y <= 308:
                             COLOR4 = WHITE
                             COLOR5 = RED
                             COLOR6 = RED
-                        elif mouse_x >= 274 and mouse_x <= 392 and mouse_y >= 159 and mouse_y <= 188:
+                            difficulty = "easy"
+                            
+#difficulty 
+                        elif mouse_x >= 930 and mouse_x <= 1100 and mouse_y >= 259 and mouse_y <= 308:
                             COLOR5 = WHITE
                             COLOR4 = RED
                             COLOR6 = RED
-                        elif mouse_x >= 399 and mouse_x <= 474 and mouse_y >= 159 and mouse_y <= 188:
+                            difficulty = "medium"
+                        elif mouse_x >= 1150 and mouse_x <= 1250 and mouse_y >= 259 and mouse_y <= 308:
                             COLOR6 = WHITE
                             COLOR4 = RED
                             COLOR5 = RED
-                        elif mouse_x >= 1199 and mouse_x <= 1249 and mouse_y >= 649 and mouse_y <= 778:
+                            difficulty = "hard"
+                        elif mouse_x >= 1200 and mouse_x <= 1300 and mouse_y >= 649 and mouse_y <= 798:
                             done = True
                             really_done = True 
                             
+                        #color picker    
+                        elif mouse_x >= 200 and mouse_x <= 300 and mouse_y >= 300 and mouse_y <= 390:
+                            color = "Brown"
+                            r_box_x = 205
+                            r_box_y = 300
+                        elif mouse_x >= 325 and mouse_x <= 425 and mouse_y >= 300 and mouse_y <= 390:
+                            color = "Black"
+                            r_box_x = 330
+                            r_box_y = 300
+                        elif mouse_x >= 455 and mouse_x <= 555 and mouse_y >= 300 and mouse_y <= 390:
+                            color = "Green"
+                            r_box_x = 455
+                            r_box_y = 300
+                        elif mouse_x >= 570 and mouse_x <= 670 and mouse_y >= 300 and mouse_y <= 390:
+                            color = "Blue"
+                            r_box_x = 570
+                            r_box_y = 299
+                        elif mouse_x >= 255 and mouse_x <= 355 and mouse_y >= 400 and mouse_y <= 490:
+                            color = "Yellow"
+                            r_box_x = 255
+                            r_box_y = 400
+                        elif mouse_x >= 370 and mouse_x <= 470 and mouse_y >= 400 and mouse_y <= 490:
+                            color = "Purple"
+                            r_box_x = 372
+                            r_box_y = 403
+                        elif mouse_x >= 495 and mouse_x <= 595 and mouse_y >= 400 and mouse_y <= 490:
+                            color = "Pink"
+                            r_box_x = 495
+                            r_box_y = 403
+                        elif mouse_x >= 600 and mouse_x <= 700 and mouse_y >= 400 and mouse_y <= 490:
+                            color = "White"
+                            r_box_x = 602
+                            r_box_y = 407
                        
                                       
                     # Background
@@ -275,24 +323,26 @@ def main():
                     minutes = total_seconds // 60
                     seconds = total_seconds % 60
                     
-                    print (seconds)
+                    print (color)
                     frame_count += 1                   
                     # Creat Buttons
-                    sitting_bunny_list.draw()
+                    sitting_bunny_list.draw(screen)
                     
-                                        
+                    screen.blit(background_image2, [0, 0])
+                    screen.blit(color_picker, [200,300])                    
                     text8 = font2.render("EASY", True, COLOR4)
                     text9 = font2.render("MEDIUM", True, COLOR5)
-                    text10 = font2.render("HARD", True, COLOR6)                    
-                    screen.blit(text6, [100, 350])
-                    screen.blit(text7, [200, 100])
-                    screen.blit(text8, [200, 160])
-                    screen.blit(text9, [275, 160])
-                    screen.blit(text10, [400, 160])
+                    text10 = font2.render("HARD", True, COLOR6) 
+                    text12 = font2.render("Pick Your Rabbit", True, RED)                   
+                    screen.blit(text6, [100, 550])
+                    screen.blit(text7, [900, 200])
+                    screen.blit(text8, [800, 260])
+                    screen.blit(text9, [930, 260])
+                    screen.blit(text10, [1150, 260])
                     screen.blit(text11, [1200, 650])
-                    
+                    screen.blit(text12, [300, 200])
                     # Change mouse
-                    
+                    pygame.draw.rect(screen, Constants.WHITE, [r_box_x, r_box_y, 100,95],3)
                     pos = pygame.mouse.get_pos()
                     mouse_x = pos[0]
                     mouse_y = pos[1] 

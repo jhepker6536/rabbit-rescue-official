@@ -13,27 +13,45 @@ width = 1366
 hight = 768
 
 
-def level_two():
+def level_two(color):
     pygame.init()
     screen = pygame.display.set_mode([width,hight], pygame.FULLSCREEN, 32)
     mouse_x = 0  
     key_collected = False
     mouse_y = 0 
-    key_x = 1740
-    key_y = 300
+    key_x = 1940
+    key_y = 100
     floor_x = 0  
     caged_bunny_list = pygame.sprite.Group()
     platform_list = pygame.sprite.Group()
     active_sprite_list = pygame.sprite.Group()
     key_list = pygame.sprite.Group()
     
+    if color == "Blue":
+        player_color = Player.blue_bunny
+    elif color == "Brown":
+        player_color = Player.brown_bunny
+    elif color == "Purple":
+        player_color = Player.purple_bunny
+    elif color == "Green":
+        player_color = Player.green_bunny 
+    elif color == "Yellow":
+        player_color = Player.green_bunny   
+    elif color == "White":
+        player_color = Player.green_bunny
+    elif color == "Pink":
+        player_color = Player.green_bunny
+    else:
+        player_color = Player.black_bunny
+        
+        
     platform_test = Platform(floor_x,674,0)
     platform1 = Platform(400,450,1)
-    platform2 = Platform(925,250,1)
-    platform3 = Platform(1600,430,1)
-    platform6 = Platform(2400,250,1)
+    platform2 = Platform(1200,450,1)
+    platform3 = Platform(1800,230,1)
+    platform6 = Platform(2400,400,1)
     
-    player2 = Player(25,400,platform_list,True,Player.black_bunny, hight)
+    player2 = Player(25,400,platform_list,True,player_color, hight)
     
     caged_bunny = Caged_Bunny(3050,525,platform_list) 
     key = Key(key_x,key_y,player2.change_x)
@@ -145,4 +163,4 @@ def level_two():
         clock.tick(60)
     pygame.quit()
 if __name__ == "__main__":
-    level_two()
+    level_two("Purple")

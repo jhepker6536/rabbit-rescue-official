@@ -3,6 +3,7 @@ from Spritesheet import SpriteSheet
 class Platform(pygame.sprite.Sprite):
     platform = []
     platform_move_x = 0
+    platform_move_y = 0 
     def __init__(self, x,y,number):
         self.x = x
         self.y = y
@@ -21,4 +22,5 @@ class Platform(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
     def update(self):
         self.rect.x = self.x - self.platform_move_x
-        self.rect.y = self.y
+        self.rect.y = self.y + self.platform_move_y
+    

@@ -18,6 +18,7 @@ GRASS_300 = (0, 55, 300, 40)
 GRASS_400 = (41, 113, 400, 40)
 
 level = 1 
-
+snake_limit_one = 400
+snake_limit_two = 766
 width = 1366
 hight = 768
