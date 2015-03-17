@@ -27,7 +27,6 @@ def level_one():
     platform_list = pygame.sprite.Group()
     active_sprite_list = pygame.sprite.Group()
     key_list = pygame.sprite.Group()
-    limit_list = pygame.sprite.Group()
    
     
     
@@ -38,10 +37,7 @@ def level_one():
     platform6 = Platform(2400,250,1)
     
     player = Player(25,400,platform_list,True,Player.black_bunny, hight)
-    limitone = Snake_limits(400, 375, player.change_x, platform_list)
-    limittwo = Snake_limits(766, 375, player.change_x, platform_list)
-    limit_list.add(limitone,limittwo)
-    snake = Snake(400,370,platform1.rect.x - 15, platform1.rect.x + 370)
+    snake = Snake(400,370,platform1.rect.x, platform1.rect.x + 700)
     caged_bunny = Caged_Bunny(3050,525,platform_list) 
     key = Key(key_x,key_y,player.change_x)
     
@@ -52,7 +48,7 @@ def level_one():
     
     caged_bunny_list.add(caged_bunny)
     platform_list.add(platform_test, platform2, platform1,platform3,platform6)
-    active_sprite_list.add(caged_bunny,player,platform_test,platform2,platform1,platform3,platform6,key,snake,limitone,limittwo)
+    active_sprite_list.add(caged_bunny,player,platform_test,platform2,platform1,platform3,platform6,key,snake)
     
     background_x_change = 0 
     font2 = pygame.font.SysFont('Calibri', 30, True, False)
@@ -111,7 +107,7 @@ def level_one():
         for block in block_hit_list:
             key.move_key()
             key_collected = True
-            
+           
             
         block_hit_list = pygame.sprite.spritecollide(player, caged_bunny_list, False)
         for block in block_hit_list:
@@ -120,9 +116,9 @@ def level_one():
                 caged_bunny.free()
             if key_collected == False:
                 caged_bunny.get_the_key()
-            
+                
 
-        
+        print(platform1.rect.x, snake.rect.x)
         if key_collected == False and player.change_x > 0:
             Key.key_move_x += player.change_x + 2
         elif key_collected == False and player.change_x < 0:

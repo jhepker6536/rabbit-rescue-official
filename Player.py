@@ -73,11 +73,18 @@ class Snake(pygame.sprite.Sprite):
         elif self.direction == "L":
             frame = (pos // 20) % len(self.snake_left)
             self.image = self.snake_left[frame]
-        if self.rect.x <= self.limit2 or self.rect.x >= self.limit:
-            self.turn_around()   
+        
+        if self.rect.x >= self.limit2:
+            self.turn_around() 
+        if self.rect.x < self.limit:
+            self.turn_around() 
         
     def turn_around(self):
         self.change_x = self.change_x * -1
+        if self.direction == "R":
+            self.direction = "l"
+        if self.direction == "l":
+            self.direction = "R"
         
     
 class Caged_Bunny(pygame.sprite.Sprite):
